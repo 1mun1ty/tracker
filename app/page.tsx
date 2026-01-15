@@ -24,10 +24,10 @@ export default function Home() {
     let projectData = manager.getData();
 
     // Check if we need to initialize or reload data
-    // Complete roadmap should have ~254 tasks across all 6 phases
+    // Complete comprehensive roadmap should have ~293 tasks across all 6 phases
     const hasIncompleteData = projectData.tasks.length === 0 || 
                               !projectData.phases.length ||
-                              projectData.tasks.length < 200 || // Less than expected
+                              projectData.tasks.length < 290 || // Less than expected comprehensive tasks
                               projectData.phases.some(phase => {
                                 const phaseTasks = projectData.tasks.filter(t => t.phaseId === phase.id);
                                 return phaseTasks.length === 0 && phase.id !== 'phase-1'; // All phases except phase-1 should have tasks
