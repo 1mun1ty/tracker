@@ -6,7 +6,7 @@ import { DataManager } from '@/lib/data';
 import { useTimer } from '@/lib/timerContext';
 import { useToast } from '@/lib/toast';
 import { formatDate, getStatusColor, getPriorityColor, cn, formatDuration, formatTimerTime } from '@/lib/utils';
-import { CheckCircle2, Circle, Clock, AlertCircle, X, Filter, Search, List, Trophy, Play, Square, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import { CheckCircle2, Circle, Clock, AlertCircle, X, Filter, Search, List, Trophy, Play, Square, ChevronDown, ChevronUp, Plus, Edit2, Trash2 } from 'lucide-react';
 
 interface TaskListProps {
   data: ProjectData;
@@ -21,6 +21,8 @@ export default function TaskList({ data, onUpdate }: TaskListProps) {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [expandedPhases, setExpandedPhases] = useState<Set<string>>(new Set(data.phases.map(p => p.id)));
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
+  const [showEditTaskModal, setShowEditTaskModal] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
@@ -229,6 +231,56 @@ export default function TaskList({ data, onUpdate }: TaskListProps) {
       status: 'pending',
     });
     onUpdate();
+  };
+
+  const openEditTask = (task: Task) => {
+    setEditingTask(task);
+    setShowEditTaskModal(true);
+  };
+
+  const saveEditedTask = () => {
+    if (!editingTask || !editingTask.title.trim() || !editingTask.phaseId) return;
+
+    manager.updateTask(editingTask.id, {
+      title: editingTask.title,
+      description: editingTask.description || undefined,
+      status: editingTask.status,
+      priority: editingTask.priority,
+      phaseId: editingTask.phaseId,
+      estimatedHours: editingTask.estimatedHours || undefined,
+    });
+
+    setShowEditTaskModal(false);
+    setEditingTask(null);
+    setSelectedTask(null);
+    onUpdate();
+    showToast('Task updated successfully!', 'success');
+  };
+
+  const deleteTask = (taskId: string) => {
+    const task = data.tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    const taskTimeEntries = data.timeEntries.filter(te => te.taskId === taskId);
+    const hasProgress = task.status !== 'pending' || taskTimeEntries.length > 0 || (task.actualHours && task.actualHours > 0);
+
+    const warningMessage = hasProgress
+      ? `⚠️ WARNING: This task has progress (${taskTimeEntries.length} time entries, ${task.actualHours?.toFixed(1) || 0}h logged). Deleting will permanently remove the task and all associated time entries. This action cannot be undone. Continue?`
+      : `Are you sure you want to delete "${task.title}"? This action cannot be undone.`;
+
+    showConfirm(
+      warningMessage,
+      () => {
+        // Stop timer if this task is active
+        if (isActive(taskId)) {
+          stopGlobalTimer();
+        }
+        manager.deleteTask(taskId);
+        setSelectedTask(null);
+        onUpdate();
+        showToast('Task deleted successfully', 'success');
+      }
+    );
   };
 
   return (
@@ -881,53 +933,77 @@ export default function TaskList({ data, onUpdate }: TaskListProps) {
               </div>
 
               {/* Action Buttons in Modal */}
-              <div className="flex space-x-3 mt-6 pt-4 border-t border-gray-700">
-                {selectedTask.status === 'pending' && (
+              <div className="flex flex-col space-y-3 mt-6 pt-4 border-t border-gray-700">
+                <div className="flex space-x-3">
+                  {selectedTask.status === 'pending' && (
+                    <button
+                      onClick={() => {
+                        startTask(selectedTask.id);
+                        setSelectedTask({ ...selectedTask, status: 'in_progress' });
+                      }}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 font-semibold flex items-center justify-center space-x-2"
+                    >
+                      <Play className="w-4 h-4" />
+                      <span>Start Task</span>
+                    </button>
+                  )}
+                  {selectedTask.status === 'in_progress' && !isActive(selectedTask.id) && (
+                    <button
+                      onClick={() => {
+                        startTask(selectedTask.id);
+                      }}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 font-semibold flex items-center justify-center space-x-2"
+                    >
+                      <Play className="w-4 h-4" />
+                      <span>Resume Timer</span>
+                    </button>
+                  )}
+                  {isActive(selectedTask.id) && (
+                    <button
+                      onClick={() => {
+                        stopTimer(selectedTask.id);
+                      }}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 font-semibold flex items-center justify-center space-x-2"
+                    >
+                      <Square className="w-4 h-4" />
+                      <span>Stop Timer</span>
+                    </button>
+                  )}
+                  {selectedTask.status === 'in_progress' && (
+                    <button
+                      onClick={() => {
+                        completeTask(selectedTask.id);
+                        setSelectedTask({ ...selectedTask, status: 'completed' });
+                      }}
+                      className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 font-semibold flex items-center justify-center space-x-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Complete Task</span>
+                    </button>
+                  )}
+                </div>
+                
+                {/* Edit and Delete Buttons */}
+                <div className="flex space-x-3 pt-2 border-t border-gray-700">
                   <button
                     onClick={() => {
-                      startTask(selectedTask.id);
-                      setSelectedTask({ ...selectedTask, status: 'in_progress' });
+                      openEditTask(selectedTask);
                     }}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 font-semibold flex items-center justify-center space-x-2"
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 font-semibold flex items-center justify-center space-x-2"
                   >
-                    <Play className="w-4 h-4" />
-                    <span>Start Task</span>
+                    <Edit2 className="w-4 h-4" />
+                    <span>Edit Task</span>
                   </button>
-                )}
-                {selectedTask.status === 'in_progress' && !isActive(selectedTask.id) && (
                   <button
                     onClick={() => {
-                      startTask(selectedTask.id);
+                      deleteTask(selectedTask.id);
                     }}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 font-semibold flex items-center justify-center space-x-2"
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-lg hover:from-red-600 hover:to-rose-700 font-semibold flex items-center justify-center space-x-2"
                   >
-                    <Play className="w-4 h-4" />
-                    <span>Resume Timer</span>
+                    <Trash2 className="w-4 h-4" />
+                    <span>Delete Task</span>
                   </button>
-                )}
-                {isActive(selectedTask.id) && (
-                  <button
-                    onClick={() => {
-                      stopTimer(selectedTask.id);
-                    }}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 font-semibold flex items-center justify-center space-x-2"
-                  >
-                    <Square className="w-4 h-4" />
-                    <span>Stop Timer</span>
-                  </button>
-                )}
-                {selectedTask.status === 'in_progress' && (
-                  <button
-                    onClick={() => {
-                      completeTask(selectedTask.id);
-                      setSelectedTask({ ...selectedTask, status: 'completed' });
-                    }}
-                    className="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 font-semibold flex items-center justify-center space-x-2"
-                  >
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>Complete Task</span>
-                  </button>
-                )}
+                </div>
               </div>
               
               {selectedTask.tags && selectedTask.tags.length > 0 && (
@@ -942,6 +1018,140 @@ export default function TaskList({ data, onUpdate }: TaskListProps) {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Task Modal */}
+      {showEditTaskModal && editingTask && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="text-2xl font-bold text-white">Edit Task</h3>
+                <button
+                  onClick={() => {
+                    setShowEditTaskModal(false);
+                    setEditingTask(null);
+                  }}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Task Title <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={editingTask.title}
+                    onChange={(e) => setEditingTask({ ...editingTask, title: e.target.value })}
+                    placeholder="Enter task title"
+                    className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    value={editingTask.description || ''}
+                    onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })}
+                    placeholder="Enter task description"
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white placeholder-gray-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Phase <span className="text-red-400">*</span>
+                    </label>
+                    <select
+                      value={editingTask.phaseId}
+                      onChange={(e) => setEditingTask({ ...editingTask, phaseId: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
+                    >
+                      {data.phases.map(phase => (
+                        <option key={phase.id} value={phase.id}>{phase.title}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Priority
+                    </label>
+                    <select
+                      value={editingTask.priority}
+                      onChange={(e) => setEditingTask({ ...editingTask, priority: e.target.value as Priority })}
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
+                    >
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                      <option value="critical">Critical</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Estimated Hours
+                    </label>
+                    <input
+                      type="number"
+                      value={editingTask.estimatedHours || ''}
+                      onChange={(e) => setEditingTask({ ...editingTask, estimatedHours: parseFloat(e.target.value) || 0 })}
+                      min="0"
+                      step="0.5"
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Status
+                    </label>
+                    <select
+                      value={editingTask.status}
+                      onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value as TaskStatus })}
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-700 text-white"
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                      <option value="blocked">Blocked</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex space-x-3 pt-4 border-t border-gray-700">
+                  <button
+                    onClick={saveEditedTask}
+                    disabled={!editingTask.title.trim() || !editingTask.phaseId}
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowEditTaskModal(false);
+                      setEditingTask(null);
+                    }}
+                    className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 font-semibold"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

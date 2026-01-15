@@ -216,4 +216,22 @@ export class DataManager {
       milestones: [...data.milestones, milestone],
     }));
   }
+
+  updateMilestone(milestoneId: string, updates: Partial<Milestone>): void {
+    this.updateData(data => ({
+      ...data,
+      milestones: data.milestones.map(m => 
+        m.id === milestoneId 
+          ? { ...m, ...updates }
+          : m
+      ),
+    }));
+  }
+
+  deleteMilestone(milestoneId: string): void {
+    this.updateData(data => ({
+      ...data,
+      milestones: data.milestones.filter(m => m.id !== milestoneId),
+    }));
+  }
 }

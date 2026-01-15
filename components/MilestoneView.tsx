@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { ProjectData, Milestone } from '@/types';
 import { DataManager } from '@/lib/data';
 import { formatDate } from '@/lib/utils';
-import { Target, CheckCircle2, Clock, AlertCircle, Play, Trophy, Plus, X } from 'lucide-react';
+import { useToast } from '@/lib/toast';
+import { Target, CheckCircle2, Clock, AlertCircle, Play, Trophy, Plus, X, Edit2, Trash2 } from 'lucide-react';
 
 interface MilestoneViewProps {
   data: ProjectData;
@@ -13,7 +14,10 @@ interface MilestoneViewProps {
 
 export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
   const manager = DataManager.getInstance();
+  const { showConfirm, showToast } = useToast();
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingMilestone, setEditingMilestone] = useState<Milestone | null>(null);
   const [newMilestone, setNewMilestone] = useState({
     title: '',
     description: '',
@@ -92,6 +96,48 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
       targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     });
     onUpdate();
+    showToast('Milestone created successfully!', 'success');
+  };
+
+  const openEditMilestone = (milestone: Milestone) => {
+    setEditingMilestone(milestone);
+    setShowEditModal(true);
+  };
+
+  const saveEditedMilestone = () => {
+    if (!editingMilestone || !editingMilestone.title.trim() || !editingMilestone.phaseId) return;
+
+    manager.updateMilestone(editingMilestone.id, {
+      title: editingMilestone.title,
+      description: editingMilestone.description || undefined,
+      phaseId: editingMilestone.phaseId,
+      targetDate: editingMilestone.targetDate,
+      status: editingMilestone.status,
+    });
+
+    setShowEditModal(false);
+    setEditingMilestone(null);
+    onUpdate();
+    showToast('Milestone updated successfully!', 'success');
+  };
+
+  const deleteMilestone = (milestoneId: string) => {
+    const milestone = data.milestones.find(m => m.id === milestoneId);
+    if (!milestone) return;
+
+    const hasRelatedTasks = milestone.tasks.length > 0;
+    const warningMessage = hasRelatedTasks
+      ? `⚠️ WARNING: This milestone has ${milestone.tasks.length} related task(s). Deleting will remove the milestone but tasks will remain. This action cannot be undone. Continue?`
+      : `Are you sure you want to delete "${milestone.title}"? This action cannot be undone.`;
+
+    showConfirm(
+      warningMessage,
+      () => {
+        manager.deleteMilestone(milestoneId);
+        onUpdate();
+        showToast('Milestone deleted successfully', 'success');
+      }
+    );
   };
 
   return (
@@ -249,6 +295,24 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
                       <span className="text-sm font-semibold">Achieved!</span>
                     </div>
                   )}
+
+                  {/* Edit and Delete Buttons */}
+                  <div className="flex space-x-2 mt-2 pt-2 border-t border-gray-700">
+                    <button
+                      onClick={() => openEditMilestone(milestone)}
+                      className="px-3 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 font-semibold text-xs flex items-center space-x-1 shadow-md hover:shadow-lg transition-all"
+                    >
+                      <Edit2 className="w-3 h-3" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => deleteMilestone(milestone.id)}
+                      className="px-3 py-1.5 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-lg hover:from-red-600 hover:to-rose-700 font-semibold text-xs flex items-center space-x-1 shadow-md hover:shadow-lg transition-all"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -281,10 +345,123 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
         </div>
       </div>
 
+      {/* Edit Milestone Modal */}
+      {showEditModal && editingMilestone && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="text-2xl font-bold text-white">Edit Milestone</h3>
+                <button
+                  onClick={() => {
+                    setShowEditModal(false);
+                    setEditingMilestone(null);
+                  }}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Milestone Title <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={editingMilestone.title}
+                    onChange={(e) => setEditingMilestone({ ...editingMilestone, title: e.target.value })}
+                    placeholder="Enter milestone title"
+                    className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white placeholder-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    value={editingMilestone.description || ''}
+                    onChange={(e) => setEditingMilestone({ ...editingMilestone, description: e.target.value })}
+                    placeholder="Enter milestone description"
+                    rows={4}
+                    className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white placeholder-gray-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Phase <span className="text-red-400">*</span>
+                    </label>
+                    <select
+                      value={editingMilestone.phaseId}
+                      onChange={(e) => setEditingMilestone({ ...editingMilestone, phaseId: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white"
+                    >
+                      {data.phases.map(phase => (
+                        <option key={phase.id} value={phase.id}>{phase.title}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Target Date <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      value={new Date(editingMilestone.targetDate).toISOString().split('T')[0]}
+                      onChange={(e) => setEditingMilestone({ ...editingMilestone, targetDate: new Date(e.target.value).toISOString() })}
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Status
+                  </label>
+                  <select
+                    value={editingMilestone.status}
+                    onChange={(e) => setEditingMilestone({ ...editingMilestone, status: e.target.value as Milestone['status'] })}
+                    className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white"
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="achieved">Achieved</option>
+                    <option value="delayed">Delayed</option>
+                  </select>
+                </div>
+
+                <div className="flex space-x-3 pt-4 border-t border-gray-700">
+                  <button
+                    onClick={saveEditedMilestone}
+                    disabled={!editingMilestone.title.trim() || !editingMilestone.phaseId}
+                    className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:from-purple-600 hover:to-indigo-700 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowEditModal(false);
+                      setEditingMilestone(null);
+                    }}
+                    className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 font-semibold"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Add Milestone Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-700">
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <h3 className="text-2xl font-bold text-white">Add New Milestone</h3>
@@ -306,7 +483,7 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
                     value={newMilestone.title}
                     onChange={(e) => setNewMilestone({ ...newMilestone, title: e.target.value })}
                     placeholder="Enter milestone title"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white placeholder-gray-400"
                   />
                 </div>
 
@@ -319,7 +496,7 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
                     onChange={(e) => setNewMilestone({ ...newMilestone, description: e.target.value })}
                     placeholder="Enter milestone description"
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white placeholder-gray-400"
                   />
                 </div>
 
@@ -331,7 +508,7 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
                     <select
                       value={newMilestone.phaseId}
                       onChange={(e) => setNewMilestone({ ...newMilestone, phaseId: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white placeholder-gray-400"
                     >
                       {data.phases.map(phase => (
                         <option key={phase.id} value={phase.id}>{phase.title}</option>
@@ -347,12 +524,12 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
                       type="date"
                       value={newMilestone.targetDate}
                       onChange={(e) => setNewMilestone({ ...newMilestone, targetDate: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 bg-gray-700 text-white placeholder-gray-400"
                     />
                   </div>
                 </div>
 
-                <div className="flex space-x-3 pt-4 border-t">
+                <div className="flex space-x-3 pt-4 border-t border-gray-700">
                   <button
                     onClick={createMilestone}
                     disabled={!newMilestone.title.trim() || !newMilestone.phaseId}
@@ -362,7 +539,7 @@ export default function MilestoneView({ data, onUpdate }: MilestoneViewProps) {
                   </button>
                   <button
                     onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-300 font-semibold"
+                    className="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 font-semibold"
                   >
                     Cancel
                   </button>
