@@ -125,7 +125,7 @@ export default function PhaseView({ data, onUpdate }: PhaseViewProps) {
                   <div className="text-center py-4 bg-gray-700/50 rounded-lg border border-gray-600">
                     <p className="text-sm text-gray-400 mb-2">No tasks yet for this phase</p>
                     <p className="text-xs text-gray-500">
-                      Use "Add New Task" button to create tasks for this phase
+                      Use &quot;Add New Task&quot; button to create tasks for this phase
                     </p>
                   </div>
                 ) : (

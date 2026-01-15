@@ -1,6 +1,6 @@
 'use client';
 
-import { ProjectData } from '@/types';
+import { ProjectData, Task } from '@/types';
 import { DataManager } from '@/lib/data';
 import { formatDuration, formatTimerTime, getStatusColor } from '@/lib/utils';
 import { useToast } from '@/lib/toast';
@@ -71,7 +71,7 @@ export default function Dashboard({ data, onUpdate }: DashboardProps) {
         const existingTasksMap = new Map(currentData.tasks.map(t => [t.id, t]));
         
         // Merge tasks: preserve existing task progress, add new tasks
-        const mergedTasks = initialData.tasks.map(newTask => {
+        const mergedTasks = initialData.tasks.map((newTask: Task) => {
           const existingTask = existingTasksMap.get(newTask.id);
           if (existingTask) {
             // Preserve existing task progress

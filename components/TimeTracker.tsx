@@ -176,7 +176,7 @@ export default function TimeTracker({ data, onUpdate }: TimeTrackerProps) {
         {allTimeEntries.length === 0 && (
           <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
             <p className="text-sm text-blue-300">
-              <strong>How to track time:</strong> Go to the Tasks page, click "Start" on any task, then click "Stop Timer" when done. Your time will appear here automatically.
+              <strong>How to track time:</strong> Go to the Tasks page, click &quot;Start&quot; on any task, then click &quot;Stop Timer&quot; when done. Your time will appear here automatically.
             </p>
           </div>
         )}

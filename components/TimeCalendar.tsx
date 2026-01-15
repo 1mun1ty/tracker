@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { ProjectData } from '@/types';
 import { formatDuration, formatTimerTime } from '@/lib/utils';
 import { Calendar, ChevronLeft, ChevronRight, X, Clock } from 'lucide-react';
@@ -56,10 +56,10 @@ export default function TimeCalendar({ data }: TimeCalendarProps) {
     });
   };
 
-  const getDateKey = (day: number) => {
+  const getDateKey = useCallback((day: number) => {
     const date = new Date(year, month, day);
     return date.toISOString().split('T')[0];
-  };
+  }, [year, month]);
 
   const getDayTime = (day: number) => {
     const dateKey = getDateKey(day);
@@ -91,7 +91,7 @@ export default function TimeCalendar({ data }: TimeCalendarProps) {
       const dateKey = getDateKey(i + 1);
       return timeByDate[dateKey] || 0;
     }).reduce((sum, minutes) => sum + minutes, 0);
-  }, [year, month, timeByDate, daysInMonth]);
+  }, [timeByDate, daysInMonth, getDateKey]);
 
   const monthTaskCount = useMemo(() => {
     const uniqueTasks = new Set<string>();
@@ -102,7 +102,7 @@ export default function TimeCalendar({ data }: TimeCalendarProps) {
       }
     });
     return uniqueTasks.size;
-  }, [year, month, tasksByDate, daysInMonth]);
+  }, [tasksByDate, daysInMonth, getDateKey]);
 
   // Get detailed entries for selected date
   const selectedDateEntries = useMemo(() => {
