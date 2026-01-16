@@ -1,0 +1,2377 @@
+{
+  "tasks": [
+    {
+      "id": "task-0-1",
+      "title": "Computer Setup - Prepare development machine",
+      "description": "Get a computer with at least 16GB RAM (32GB recommended), Install Ubuntu 22.04 LTS (dual boot or main OS), Learn basic Linux commands, Install VSCode or your preferred IDE, Set up GitHub account, Learn basic Git commands",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "setup",
+        "linux",
+        "git",
+        "tools"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.163Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-1-1",
+      "title": "Learning: Linux Command Line Basics",
+      "description": "Complete \"Linux Command Line Basics\" - Free YouTube course, Practice on: https://www.learnenough.com/command-line-tutorial",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "learning",
+        "tutorial"
+      ],
+      "dependencies": [
+        "task-0-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-1-2",
+      "title": "Learning: Git Tutorial for Beginners",
+      "description": "Complete \"Git Tutorial for Beginners\" - Free on YouTube, Practice basic Git commands",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 2,
+      "actualHours": 0,
+      "tags": [
+        "git",
+        "learning",
+        "tutorial"
+      ],
+      "dependencies": [
+        "task-0-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-1-3",
+      "title": "Project: Complete Linux command line tutorial",
+      "description": "Practice navigating directories, creating files, using basic commands (ls, cd, mkdir, rm, cp, mv, grep, find). Checkpoint: Can you navigate directories, create files, and push to GitHub?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "practice",
+        "project"
+      ],
+      "dependencies": [
+        "task-0-1-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-1-4",
+      "title": "Project: Set up and push first repository to GitHub",
+      "description": "Create GitHub account, initialize local repo, make commits, push to remote, create README",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 2,
+      "actualHours": 0,
+      "tags": [
+        "git",
+        "github",
+        "practice",
+        "project"
+      ],
+      "dependencies": [
+        "task-0-1-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2",
+      "title": "Programming Fundamentals - Learn basic programming concepts",
+      "description": "Learn Variables, data types, operators, Control flow (if/else, loops), Functions and methods, Basic data structures (arrays, dictionaries), Object-oriented programming basics, Error handling. Start with Python 3.11+",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 80,
+      "actualHours": 0,
+      "tags": [
+        "programming",
+        "python",
+        "fundamentals"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-1",
+      "title": "Learning: Python for Beginners course",
+      "description": "Complete \"Python for Beginners\" course, Install Python 3.11+, Use Codecademy: Learn Python 3 (free tier) or \"Automate the Boring Stuff with Python\" book",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "python",
+        "learning",
+        "course"
+      ],
+      "dependencies": [
+        "task-0-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-2",
+      "title": "Practice: CodeWars exercises",
+      "description": "Practice on: https://www.codewars.com (start with 8 kyu), Complete at least 20 beginner exercises",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 10,
+      "actualHours": 0,
+      "tags": [
+        "python",
+        "practice",
+        "codewars"
+      ],
+      "dependencies": [
+        "task-0-2-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-3",
+      "title": "Project: Build Calculator",
+      "description": "Create a calculator that can perform basic arithmetic operations (add, subtract, multiply, divide)",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 2,
+      "actualHours": 0,
+      "tags": [
+        "python",
+        "project",
+        "beginner"
+      ],
+      "dependencies": [
+        "task-0-2-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-4",
+      "title": "Project: Build To-Do List",
+      "description": "Create a command-line to-do list application with add, remove, list, and mark complete features",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 3,
+      "actualHours": 0,
+      "tags": [
+        "python",
+        "project",
+        "beginner"
+      ],
+      "dependencies": [
+        "task-0-2-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-5",
+      "title": "Project: Build File Organizer",
+      "description": "Create a script that organizes files in a directory by extension into subdirectories",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 3,
+      "actualHours": 0,
+      "tags": [
+        "python",
+        "project",
+        "beginner"
+      ],
+      "dependencies": [
+        "task-0-2-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-6",
+      "title": "Project: Build Simple Web Scraper",
+      "description": "Create a web scraper that extracts specific information from a website using requests and BeautifulSoup",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "python",
+        "project",
+        "beginner",
+        "web"
+      ],
+      "dependencies": [
+        "task-0-2-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-7",
+      "title": "Project: Build Password Generator",
+      "description": "Create a password generator with customizable length and character sets",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 2,
+      "actualHours": 0,
+      "tags": [
+        "python",
+        "project",
+        "beginner",
+        "security"
+      ],
+      "dependencies": [
+        "task-0-2-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-2-8",
+      "title": "Checkpoint: Programming Fundamentals",
+      "description": "Verify: Built all 5 projects and understand basic Python? Can explain OOP concepts? Can handle errors properly?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 0,
+      "actualHours": 0,
+      "tags": [
+        "checkpoint",
+        "review"
+      ],
+      "dependencies": [
+        "task-0-2-3",
+        "task-0-2-4",
+        "task-0-2-5",
+        "task-0-2-6",
+        "task-0-2-7"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-3",
+      "title": "Networking Basics - Understand how computers communicate",
+      "description": "Learn OSI Model (7 layers), TCP/IP Protocol suite, IP addresses (IPv4/IPv6), Ports and services, DNS basics, HTTP/HTTPS protocols, Common network tools (ping, traceroute, nslookup)",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "networking",
+        "fundamentals"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-3-1",
+      "title": "Learning: Network Fundamentals",
+      "description": "Watch Professor Messer's Network+ videos (free on YouTube), Read \"Computer Networking: A Top-Down Approach\" book chapters 1-3, Practice on: TryHackMe \"Network Fundamentals\" path",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 20,
+      "actualHours": 0,
+      "tags": [
+        "networking",
+        "learning",
+        "course"
+      ],
+      "dependencies": [
+        "task-0-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-3-2",
+      "title": "Project: Set up 2 VMs and make them communicate",
+      "description": "Set up two virtual machines, configure networking, test connectivity, capture traffic with Wireshark, understand what you see",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 6,
+      "actualHours": 0,
+      "tags": [
+        "networking",
+        "project",
+        "hands-on"
+      ],
+      "dependencies": [
+        "task-0-3-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-0-3-3",
+      "title": "Checkpoint: Networking Basics",
+      "description": "Verify: Can you explain how a web page loads from typing URL to seeing content? Understand OSI model? Can use network tools?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-0",
+      "monthId": "month-0",
+      "weekId": "week-0-1",
+      "estimatedHours": 0,
+      "actualHours": 0,
+      "tags": [
+        "checkpoint",
+        "review"
+      ],
+      "dependencies": [
+        "task-0-3-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1",
+      "title": "Security Concepts Foundation - Learn core security principles",
+      "description": "Learn CIA Triad (Confidentiality, Integrity, Availability), Authentication vs Authorization, Encryption basics (symmetric, asymmetric), Hashing vs Encryption, Digital signatures, SSL/TLS handshake, Common attack types overview",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 80,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "fundamentals",
+        "cryptography"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-1",
+      "title": "Day 1-2: CIA Triad and basic principles",
+      "description": "Study CIA Triad in depth, Learn security principles, Understand confidentiality, integrity, availability concepts",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "fundamentals",
+        "cia-triad"
+      ],
+      "dependencies": [
+        "task-1-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-2",
+      "title": "Day 3-4: Cryptography fundamentals",
+      "description": "Learn symmetric encryption, asymmetric encryption, hashing algorithms, digital signatures, key management",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "cryptography",
+        "encryption"
+      ],
+      "dependencies": [
+        "task-1-1-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-3",
+      "title": "Day 5-6: Authentication mechanisms",
+      "description": "Study authentication methods, password security, multi-factor authentication, session management",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "authentication"
+      ],
+      "dependencies": [
+        "task-1-1-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-4",
+      "title": "Day 7-8: Common vulnerabilities overview",
+      "description": "Study OWASP Top 10, Common attack vectors, Vulnerability types, Impact assessment",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "vulnerabilities",
+        "owasp"
+      ],
+      "dependencies": [
+        "task-1-1-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-5",
+      "title": "Day 9-10: Security frameworks",
+      "description": "Learn NIST framework basics, ISO 27001 basics, Security control frameworks",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "frameworks",
+        "nist"
+      ],
+      "dependencies": [
+        "task-1-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-6",
+      "title": "Day 11-14: Practice labs and review",
+      "description": "Complete practice labs, Review all concepts, Take practice quizzes, Prepare for next phase",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "review"
+      ],
+      "dependencies": [
+        "task-1-1-5"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-7",
+      "title": "Learning: CompTIA Security+",
+      "description": "Watch Professor Messer free videos for CompTIA Security+, Study security concepts",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 20,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "learning",
+        "certification"
+      ],
+      "dependencies": [
+        "task-1-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-8",
+      "title": "Learning: Cybrary Introduction to IT & Cybersecurity",
+      "description": "Complete Cybrary: Introduction to IT & Cybersecurity course",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 10,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "learning",
+        "cybrary"
+      ],
+      "dependencies": [
+        "task-1-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-9",
+      "title": "Learning: OWASP Top 10 documentation",
+      "description": "Read OWASP Top 10 documentation thoroughly, Understand each vulnerability type",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "learning",
+        "owasp"
+      ],
+      "dependencies": [
+        "task-1-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-10",
+      "title": "Project: Set up home lab with VirtualBox",
+      "description": "Install VirtualBox, create Kali Linux VM, install vulnerable VM (Metasploitable, DVWA), practice basic network scanning",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "lab"
+      ],
+      "dependencies": [
+        "task-1-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-1-11",
+      "title": "Checkpoint: Security Concepts Foundation",
+      "description": "Verify: Can you explain common attacks and basic defense mechanisms? Understand CIA Triad? Know encryption basics?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-1",
+      "estimatedHours": 0,
+      "actualHours": 0,
+      "tags": [
+        "checkpoint",
+        "review"
+      ],
+      "dependencies": [
+        "task-1-1-6"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2",
+      "title": "Web Application Security - Week 1: SQL Injection",
+      "description": "Learn how databases work, SQL basics (SELECT, INSERT, UPDATE, DELETE), SQL injection techniques, Prevention methods. Practice on DVWA",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-2",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "web",
+        "sql-injection"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-1",
+      "title": "Learning: How databases work",
+      "description": "Study database fundamentals, SQL queries, Database structure, Relational databases",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "database",
+        "sql",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-2",
+      "title": "Learning: SQL basics",
+      "description": "Master SELECT, INSERT, UPDATE, DELETE statements, WHERE clauses, JOINs, Subqueries",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "sql",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-3",
+      "title": "Learning: SQL injection techniques",
+      "description": "Study union-based injection, error-based injection, blind SQL injection, time-based injection, second-order injection",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-2",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "sql-injection",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-4",
+      "title": "Learning: SQL injection prevention",
+      "description": "Learn parameterized queries, input validation, least privilege, WAF rules, secure coding practices",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "prevention",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-5",
+      "title": "Project: Complete DVWA all levels for SQL injection",
+      "description": "Practice SQL injection on DVWA (Damn Vulnerable Web Application) across all difficulty levels: Low, Medium, High, Impossible",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-2",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "web",
+        "sql-injection"
+      ],
+      "dependencies": [
+        "task-1-2-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-6",
+      "title": "Practice: TryHackMe SQL Injection room",
+      "description": "Complete TryHackMe SQL Injection room, Practice different injection techniques",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-2",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "tryhackme"
+      ],
+      "dependencies": [
+        "task-1-2-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-7",
+      "title": "Web Application Security - Week 2: XSS and CSRF",
+      "description": "Learn JavaScript basics (DOM manipulation), Reflected vs Stored vs DOM XSS, CSRF attack mechanics, Prevention (CSP, tokens). Practice on XSS game",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "web",
+        "xss",
+        "csrf"
+      ],
+      "dependencies": [
+        "task-1-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-8",
+      "title": "Learning: JavaScript basics for security",
+      "description": "Study DOM manipulation, Event handlers, JavaScript execution context, Browser security model",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "javascript",
+        "web",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2-7"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-9",
+      "title": "Learning: XSS types",
+      "description": "Study Reflected XSS, Stored XSS, DOM-based XSS, Mutation XSS, Blind XSS",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "xss",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2-8"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-10",
+      "title": "Learning: CSRF attack mechanics",
+      "description": "Understand CSRF attack flow, Token-based protection, SameSite cookies, Referer header validation",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "csrf",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2-9"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-11",
+      "title": "Learning: XSS and CSRF prevention",
+      "description": "Study Content Security Policy (CSP), CSRF tokens, Input sanitization, Output encoding, Secure headers",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "prevention",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-2-10"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-12",
+      "title": "Project: Solve XSS challenges on XSS game",
+      "description": "Complete all levels of Google XSS game, understand different XSS types and exploitation techniques",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "web",
+        "xss"
+      ],
+      "dependencies": [
+        "task-1-2-9"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-13",
+      "title": "Practice: PortSwigger XSS labs",
+      "description": "Complete PortSwigger Web Security Academy XSS labs, Practice all XSS types",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 6,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "portswigger"
+      ],
+      "dependencies": [
+        "task-1-2-9"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-14",
+      "title": "Practice: PortSwigger CSRF labs",
+      "description": "Complete PortSwigger Web Security Academy CSRF labs, Practice CSRF exploitation and prevention",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-3",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "portswigger"
+      ],
+      "dependencies": [
+        "task-1-2-10"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-15",
+      "title": "Web Application Security - Week 3: Authentication & Access Control",
+      "description": "Learn Session management, JWT tokens, OAuth 2.0 basics, Password security, Multi-factor authentication. Practice on PortSwigger Academy",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "web",
+        "authentication"
+      ],
+      "dependencies": [
+        "task-1-2-7"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-16",
+      "title": "Learning: Session management",
+      "description": "Study session creation, session storage, session fixation, session hijacking, secure session handling",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "authentication",
+        "sessions"
+      ],
+      "dependencies": [
+        "task-1-2-15"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-17",
+      "title": "Learning: JWT tokens",
+      "description": "Understand JWT structure, JWT signing, JWT validation, JWT vulnerabilities, Secure JWT implementation",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "jwt",
+        "tokens"
+      ],
+      "dependencies": [
+        "task-1-2-15"
+      ],
+      "createdAt": "2026-01-16T19:08:12.165Z",
+      "updatedAt": "2026-01-16T19:08:12.165Z"
+    },
+    {
+      "id": "task-1-2-18",
+      "title": "Learning: OAuth 2.0 basics",
+      "description": "Study OAuth 2.0 flow, Authorization codes, Access tokens, Refresh tokens, OAuth vulnerabilities",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "oauth",
+        "authentication"
+      ],
+      "dependencies": [
+        "task-1-2-15"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-2-19",
+      "title": "Learning: Password security",
+      "description": "Study password hashing (bcrypt, Argon2), Password policies, Password reset flows, Account lockout mechanisms",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "passwords",
+        "authentication"
+      ],
+      "dependencies": [
+        "task-1-2-15"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-2-20",
+      "title": "Learning: Multi-factor authentication",
+      "description": "Study MFA types (SMS, TOTP, hardware tokens), MFA implementation, MFA bypass techniques, MFA best practices",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "mfa",
+        "authentication"
+      ],
+      "dependencies": [
+        "task-1-2-15"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-2-21",
+      "title": "Project: Complete PortSwigger Academy free labs",
+      "description": "Complete beginner and intermediate labs on PortSwigger Web Security Academy: Authentication, Access control, JWT, OAuth",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 20,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "web",
+        "practice"
+      ],
+      "dependencies": [
+        "task-1-2-15"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-2-22",
+      "title": "Practice: Try 10 easy boxes on HackTheBox",
+      "description": "Complete 10 easy boxes on HackTheBox, Focus on web application vulnerabilities, Document findings",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "hackthebox"
+      ],
+      "dependencies": [
+        "task-1-2-21"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-2-23",
+      "title": "Mini-Project: Build vulnerable web app and fix it",
+      "description": "Create a simple blog with SQL injection vulnerability, exploit it yourself, fix the vulnerability, document the process",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "web",
+        "full-project"
+      ],
+      "dependencies": [
+        "task-1-2-21"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-2-24",
+      "title": "Checkpoint: Web Application Security",
+      "description": "Verify: Successfully exploited and fixed 5 different vulnerability types? Understand authentication mechanisms? Can identify web vulnerabilities?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-1",
+      "weekId": "week-1-4",
+      "estimatedHours": 0,
+      "actualHours": 0,
+      "tags": [
+        "checkpoint",
+        "review"
+      ],
+      "dependencies": [
+        "task-1-2-23"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3",
+      "title": "Network Security & Pentesting - Week 1: Reconnaissance",
+      "description": "Learn Passive reconnaissance (OSINT), Active reconnaissance (scanning), Learn Nmap thoroughly, Service fingerprinting, OS detection, Vulnerability scanning basics",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "networking",
+        "pentesting",
+        "nmap"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-1",
+      "title": "Learning: Passive reconnaissance (OSINT)",
+      "description": "Study OSINT techniques, Google dorking, Social media reconnaissance, Domain information gathering, Subdomain enumeration",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "osint",
+        "reconnaissance"
+      ],
+      "dependencies": [
+        "task-1-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-2",
+      "title": "Learning: Active reconnaissance (scanning)",
+      "description": "Study network scanning techniques, Port scanning methods, Service enumeration, Banner grabbing",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "scanning",
+        "reconnaissance"
+      ],
+      "dependencies": [
+        "task-1-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-3",
+      "title": "Learning: Nmap thoroughly",
+      "description": "Master Nmap syntax, Scan types (TCP, UDP, SYN, ACK), NSE scripts, Advanced Nmap options, Nmap output interpretation",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "nmap",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-4",
+      "title": "Learning: Service fingerprinting",
+      "description": "Study service version detection, Protocol identification, Application fingerprinting, Service enumeration techniques",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "fingerprinting",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-5",
+      "title": "Learning: OS detection",
+      "description": "Study OS fingerprinting techniques, TCP/IP stack fingerprinting, OS detection tools, OS detection evasion",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "os-detection",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-6",
+      "title": "Learning: Vulnerability scanning basics",
+      "description": "Study vulnerability scanners (Nessus, OpenVAS), CVE databases, Vulnerability assessment methodology, False positive handling",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "vulnerability-scanning",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-7",
+      "title": "Project: Nmap Mastery - Scan home network",
+      "description": "Scan your home network, try all scan types, use NSE scripts, parse and understand output, document findings",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "networking",
+        "nmap"
+      ],
+      "dependencies": [
+        "task-1-3-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-8",
+      "title": "Practice: TryHackMe Nmap room",
+      "description": "Complete TryHackMe Nmap room, Practice all scan types, Use NSE scripts",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "tryhackme"
+      ],
+      "dependencies": [
+        "task-1-3-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-9",
+      "title": "Learning: \"Nmap Network Scanning\" official book",
+      "description": "Read \"Nmap Network Scanning\" official book (free PDF), Study advanced techniques",
+      "status": "pending",
+      "priority": "medium",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-1",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "learning",
+        "nmap",
+        "book"
+      ],
+      "dependencies": [
+        "task-1-3-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-10",
+      "title": "Network Security - Week 2: Exploitation Basics",
+      "description": "Learn Metasploit Framework introduction, Exploit vs payload concepts, Basic exploit techniques, Post-exploitation basics, Privilege escalation overview",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "pentesting",
+        "metasploit"
+      ],
+      "dependencies": [
+        "task-1-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-11",
+      "title": "Learning: Metasploit Framework introduction",
+      "description": "Install Metasploit, Understand Metasploit architecture, Learn msfconsole, Basic commands, Module types",
+      "status": "pending",
+      "priority": "critical",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "metasploit",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-10"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-12",
+      "title": "Learning: Exploit vs payload concepts",
+      "description": "Understand exploit modules, Payload types, Encoders, NOPs, Handlers",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "metasploit",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-11"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-13",
+      "title": "Learning: Basic exploit techniques",
+      "description": "Study exploit selection, Exploit execution, Payload generation, Session management",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "exploitation",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-12"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-14",
+      "title": "Learning: Post-exploitation basics",
+      "description": "Study meterpreter basics, File system access, Network pivoting, Data exfiltration, Persistence",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "post-exploitation",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-13"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-15",
+      "title": "Learning: Privilege escalation overview",
+      "description": "Study Windows privilege escalation, Linux privilege escalation, Kernel exploits, Misconfigurations",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "privilege-escalation",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-14"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-16",
+      "title": "Project: Metasploit Practice - Exploit Metasploitable VM",
+      "description": "Try 5 different exploits on Metasploitable VM, understand payload options, practice post-exploitation, document process",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "pentesting",
+        "metasploit"
+      ],
+      "dependencies": [
+        "task-1-3-13"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-17",
+      "title": "Learning: Metasploit Unleashed",
+      "description": "Complete Metasploit Unleashed (free course), Study all modules, Practice exercises",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "learning",
+        "metasploit"
+      ],
+      "dependencies": [
+        "task-1-3-11"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-18",
+      "title": "Practice: TryHackMe Metasploit room",
+      "description": "Complete TryHackMe Metasploit room, Practice exploitation, Practice post-exploitation",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-2",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "tryhackme"
+      ],
+      "dependencies": [
+        "task-1-3-13"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-19",
+      "title": "Network Security - Week 3: Network Defense",
+      "description": "Learn Firewall configuration, IDS/IPS setup (Snort/Suricata), Log analysis basics, Incident detection, Network segmentation",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "defense",
+        "ids",
+        "ips"
+      ],
+      "dependencies": [
+        "task-1-3-10"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-20",
+      "title": "Learning: Firewall configuration",
+      "description": "Study firewall types, Firewall rules, NAT configuration, DMZ setup, Firewall best practices",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "firewall",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-19"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-21",
+      "title": "Learning: IDS/IPS setup (Snort/Suricata)",
+      "description": "Study IDS vs IPS, Snort installation, Suricata installation, Rule writing, Alert management",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "ids",
+        "ips",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-19"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-22",
+      "title": "Learning: Log analysis basics",
+      "description": "Study log types, Log aggregation, Log parsing, Log analysis tools, SIEM basics",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "logs",
+        "analysis",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-19"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-23",
+      "title": "Learning: Incident detection",
+      "description": "Study threat indicators, Anomaly detection, Alert correlation, Incident response basics",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "incident-response",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-22"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-24",
+      "title": "Learning: Network segmentation",
+      "description": "Study VLANs, Subnetting, Network isolation, Zero trust principles, Segmentation best practices",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "networking",
+        "segmentation",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-3-19"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-25",
+      "title": "Project: Network Defense - Set up pfSense and Snort",
+      "description": "Set up pfSense firewall VM, configure Snort IDS, generate alerts, analyze Snort logs, document configuration",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 16,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "defense",
+        "ids"
+      ],
+      "dependencies": [
+        "task-1-3-21"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-26",
+      "title": "Practice: TryHackMe Network Security room",
+      "description": "Complete TryHackMe Network Security room, Practice defense techniques",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-3",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "practice",
+        "tryhackme"
+      ],
+      "dependencies": [
+        "task-1-3-19"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-27",
+      "title": "Mini-Project: Home Network Security Assessment",
+      "description": "Map your home network, identify all devices, scan for vulnerabilities, create a security report, implement improvements",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 20,
+      "actualHours": 0,
+      "tags": [
+        "security",
+        "project",
+        "full-project",
+        "assessment"
+      ],
+      "dependencies": [
+        "task-1-3-25"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-3-28",
+      "title": "Checkpoint: Network Security & Pentesting",
+      "description": "Verify: Can you scan, enumerate, and exploit a vulnerable system? Understand network defense? Can use Metasploit?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 0,
+      "actualHours": 0,
+      "tags": [
+        "checkpoint",
+        "review"
+      ],
+      "dependencies": [
+        "task-1-3-27"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4",
+      "title": "Linux & System Administration - Week 1: Linux Essentials",
+      "description": "Learn File operations (cp, mv, rm, find, grep), Permissions (chmod, chown, ACLs), Process management (ps, top, kill), Network commands (ifconfig, netstat, ss), Service management (systemctl)",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "system-admin"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-1",
+      "title": "Learning: File operations",
+      "description": "Master cp, mv, rm, find, grep, locate, which, whereis, file operations, text processing",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "file-operations",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-2",
+      "title": "Learning: Permissions",
+      "description": "Study chmod, chown, ACLs, umask, sticky bits, SUID/SGID, file permissions, directory permissions",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "permissions",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-3",
+      "title": "Learning: Process management",
+      "description": "Study ps, top, htop, kill, killall, pkill, jobs, fg, bg, nohup, process priorities",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "processes",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-4",
+      "title": "Learning: Network commands",
+      "description": "Master ifconfig, ip, netstat, ss, route, arp, ping, traceroute, dig, nslookup",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "networking",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-5",
+      "title": "Learning: Service management",
+      "description": "Study systemctl, service, systemd, init scripts, service status, service logs, service dependencies",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "services",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-1"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-6",
+      "title": "Project: Install Ubuntu Server and configure via CLI",
+      "description": "Install Ubuntu Server (no GUI), configure everything via command line, set up SSH server, configure firewall (ufw/iptables), set up log rotation, schedule tasks with cron",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "project",
+        "system-admin"
+      ],
+      "dependencies": [
+        "task-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-7",
+      "title": "Learning: \"The Linux Command Line\" by William Shotts",
+      "description": "Read \"The Linux Command Line\" by William Shotts (free PDF), Complete exercises",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "learning",
+        "book"
+      ],
+      "dependencies": [
+        "task-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-8",
+      "title": "Practice: Linux Journey website",
+      "description": "Complete Linux Journey website tutorials, Practice all concepts",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "practice",
+        "tutorial"
+      ],
+      "dependencies": [
+        "task-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-9",
+      "title": "Practice: OverTheWire Bandit wargame",
+      "description": "Complete OverTheWire: Bandit wargame, Practice Linux commands, Practice security concepts",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 12,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "practice",
+        "wargame"
+      ],
+      "dependencies": [
+        "task-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-10",
+      "title": "Practice: TryHackMe Linux Fundamentals",
+      "description": "Complete TryHackMe Linux Fundamentals path, Practice all Linux concepts",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "practice",
+        "tryhackme"
+      ],
+      "dependencies": [
+        "task-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-11",
+      "title": "Linux - Week 2: Bash Scripting",
+      "description": "Learn Variables and loops, Conditional statements, Functions, Text processing (sed, awk, cut), File operations in scripts, Error handling",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "bash",
+        "scripting"
+      ],
+      "dependencies": [
+        "task-1-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-12",
+      "title": "Learning: Bash scripting basics",
+      "description": "Study variables, arrays, loops (for, while), conditionals (if/else), functions, parameters",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "bash",
+        "scripting",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-11"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-13",
+      "title": "Learning: Text processing",
+      "description": "Master sed, awk, cut, grep, sort, uniq, tr, paste, join, text manipulation",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "bash",
+        "text-processing",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-12"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-14",
+      "title": "Learning: File operations in scripts",
+      "description": "Study file reading, file writing, file manipulation, directory operations, file testing",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "bash",
+        "file-operations",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-12"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-15",
+      "title": "Learning: Error handling",
+      "description": "Study exit codes, error checking, trap command, set -e, set -u, error logging",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 8,
+      "actualHours": 0,
+      "tags": [
+        "bash",
+        "error-handling",
+        "learning"
+      ],
+      "dependencies": [
+        "task-1-4-12"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-16",
+      "title": "Project: Create 5 Bash scripts",
+      "description": "Build: System monitoring script (CPU, memory, disk), Log analyzer for failed SSH attempts, Automated backup script, Port scanner in bash, File integrity checker",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 20,
+      "actualHours": 0,
+      "tags": [
+        "linux",
+        "project",
+        "bash",
+        "scripting"
+      ],
+      "dependencies": [
+        "task-1-4-11"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-4-17",
+      "title": "Checkpoint: Linux & System Administration",
+      "description": "Verify: Comfortable working entirely in Linux terminal? Can write bash scripts? Understand system administration?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 0,
+      "actualHours": 0,
+      "tags": [
+        "checkpoint",
+        "review"
+      ],
+      "dependencies": [
+        "task-1-4-16"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-5",
+      "title": "Security Certifications Preparation - eJPT or Security+",
+      "description": "Choose eJPT (more practical, ~$200) or Security+ (more comprehensive, ~$370). Study 2-3 hours daily, watch all video lectures, take detailed notes, complete practice questions, do hands-on labs, take practice exams, schedule and take certification",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 80,
+      "actualHours": 0,
+      "tags": [
+        "certification",
+        "security"
+      ],
+      "dependencies": [],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-5-1",
+      "title": "Option A: eJPT Preparation",
+      "description": "Focus: Hands-on penetration testing. Study: INE eJPT course materials. Practice: TryHackMe, HackTheBox. Cost: ~$200",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "certification",
+        "ejpt",
+        "pentesting"
+      ],
+      "dependencies": [
+        "task-1-5"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-5-2",
+      "title": "Option B: Security+ Preparation",
+      "description": "Focus: Broad security concepts. Study: Professor Messer videos + practice tests. Practice: CompTIA CertMaster Practice. Cost: ~$370",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 40,
+      "actualHours": 0,
+      "tags": [
+        "certification",
+        "security-plus",
+        "comptia"
+      ],
+      "dependencies": [
+        "task-1-5"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-5-3",
+      "title": "Certification: Take practice exams",
+      "description": "Take multiple practice exams, Review weak areas, Focus on hands-on labs, Prepare for exam format",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 20,
+      "actualHours": 0,
+      "tags": [
+        "certification",
+        "practice",
+        "exam"
+      ],
+      "dependencies": [
+        "task-1-5-1",
+        "task-1-5-2"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-5-4",
+      "title": "Certification: Schedule and take exam",
+      "description": "Schedule certification exam, Take exam, Pass certification, Update resume",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 4,
+      "actualHours": 0,
+      "tags": [
+        "certification",
+        "exam"
+      ],
+      "dependencies": [
+        "task-1-5-3"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    },
+    {
+      "id": "task-1-5-5",
+      "title": "Checkpoint: Security Certifications",
+      "description": "Verify: Passed certification exam? Understand security concepts? Ready for next phase?",
+      "status": "pending",
+      "priority": "high",
+      "phaseId": "phase-1",
+      "monthId": "month-2",
+      "weekId": "week-2-4",
+      "estimatedHours": 0,
+      "actualHours": 0,
+      "tags": [
+        "checkpoint",
+        "review"
+      ],
+      "dependencies": [
+        "task-1-5-4"
+      ],
+      "createdAt": "2026-01-16T19:08:12.166Z",
+      "updatedAt": "2026-01-16T19:08:12.166Z"
+    }
+  ],
+  "total": 108
+}
