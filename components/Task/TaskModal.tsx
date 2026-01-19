@@ -1,14 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Task, Project, Workspace, TaskStatus, Priority } from '@/types';
+import { Task, Project, TaskStatus, Priority } from '@/types';
 import { X, Calendar, Tag, User, FileText, Trash2 } from 'lucide-react';
 import TaskTimer from '@/components/Timer/TaskTimer';
 
 interface TaskModalProps {
   task?: Task;
   project: Project;
-  workspace: Workspace;
   initialStatus?: TaskStatus;
   onClose: () => void;
   onSave: () => void;
@@ -17,7 +16,6 @@ interface TaskModalProps {
 export default function TaskModal({
   task,
   project,
-  workspace,
   initialStatus,
   onClose,
   onSave,
@@ -56,7 +54,6 @@ export default function TaskModal({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           projectId: project.id,
-          workspaceId: workspace.id,
           title,
           description,
           status,

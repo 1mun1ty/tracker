@@ -1,21 +1,20 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { AppData, Project, Workspace, Task } from '@/types';
+import { AppData, Project, Task } from '@/types';
 import TaskKanban from '@/components/Task/TaskKanban';
 import TaskList from '@/components/Task/TaskList';
 import { LayoutGrid, List, Calendar } from 'lucide-react';
 
 interface ProjectViewProps {
   project: Project;
-  workspace: Workspace;
   data: AppData;
   onDataUpdate: () => void;
 }
 
 type ViewType = 'kanban' | 'list' | 'calendar';
 
-export default function ProjectView({ project, workspace, data, onDataUpdate }: ProjectViewProps) {
+export default function ProjectView({ project, data, onDataUpdate }: ProjectViewProps) {
   const [view, setView] = useState<ViewType>('kanban');
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
@@ -108,7 +107,6 @@ export default function ProjectView({ project, workspace, data, onDataUpdate }: 
           <TaskKanban
             tasks={tasks}
             project={project}
-            workspace={workspace}
             onTaskUpdate={handleTaskUpdate}
           />
         )}
@@ -116,7 +114,6 @@ export default function ProjectView({ project, workspace, data, onDataUpdate }: 
           <TaskList
             tasks={tasks}
             project={project}
-            workspace={workspace}
             onTaskUpdate={handleTaskUpdate}
           />
         )}

@@ -45,11 +45,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { projectId, workspaceId, title, description, status, priority, assigneeIds, dueDate, tags } = body;
+    const { projectId, title, description, status, priority, assigneeIds, dueDate, tags } = body;
 
-    if (!projectId || !workspaceId || !title) {
+    if (!projectId || !title) {
       return NextResponse.json(
-        { success: false, error: 'Project ID, workspace ID, and title are required' },
+        { success: false, error: 'Project ID and title are required' },
         { status: 400 }
       );
     }
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     const task: Task = {
       id: `task-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       projectId,
-      workspaceId,
+      workspaceId: 'default-workspace',
       title,
       description,
       status: status || 'todo',
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
     // Add activity
     appData.activities.push({
       id: `act-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      workspaceId,
+      workspaceId: 'default-workspace',
       projectId,
       taskId: task.id,
       userId,

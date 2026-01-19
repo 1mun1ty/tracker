@@ -1,10 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { AppData, Workspace, Project } from '@/types';
+import { AppData, Project } from '@/types';
 import { TimerProvider } from '@/lib/timerContext';
-import WorkspaceSelector from '@/components/Workspace/WorkspaceSelector';
 import ProjectView from '@/components/Project/ProjectView';
 import Sidebar from '@/components/Layout/Sidebar';
 import Header from '@/components/Layout/Header';
@@ -12,18 +10,12 @@ import TimeDashboard from '@/components/TimeTracker/TimeDashboard';
 
 export default function AppPage() {
   const [data, setData] = useState<AppData | null>(null);
-  const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeView, setActiveView] = useState<'time' | 'project'>('time');
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   const loadData = async () => {
     try {
-      // Load workspaces
-      const workspacesRes = await fetch('/api/workspaces');
-      const workspacesData = await workspacesRes.json();
-      
       // Load projects
       const projectsRes = await fetch('/api/projects');
       const projectsData = await projectsRes.json();
@@ -33,7 +25,7 @@ export default function AppPage() {
       const tasksData = await tasksRes.json();
 
       const appData: AppData = {
-        workspaces: workspacesData.data || [],
+        workspaces: [],
         projects: projectsData.data || [],
         tasks: tasksData.data || [],
         comments: [],
@@ -47,11 +39,6 @@ export default function AppPage() {
       };
 
       setData(appData);
-
-      // Auto-select first workspace if available
-      if (appData.workspaces.length > 0 && !selectedWorkspace) {
-        setSelectedWorkspace(appData.workspaces[0]);
-      }
     } catch (error) {
       console.error('Failed to load data:', error);
     } finally {
@@ -64,24 +51,8 @@ export default function AppPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
-  const handleWorkspaceSelect = (workspace: Workspace) => {
-    setSelectedWorkspace(workspace);
-    setSelectedProject(null);
-  };
-
   const handleProjectSelect = (project: Project) => {
     setSelectedProject(project);
-  };
-
-  const handleWorkspaceCreated = (workspace: Workspace) => {
-    if (data) {
-      setData({
-        ...data,
-        workspaces: [...data.workspaces, workspace],
-      });
-      setSelectedWorkspace(workspace);
-    }
   };
 
   const handleProjectCreated = (project: Project) => {
@@ -109,33 +80,16 @@ export default function AppPage() {
     return null;
   }
 
-  // Show workspace selector if no workspace selected
-  if (!selectedWorkspace) {
-    return (
-      <div className="min-h-screen bg-gray-900">
-        <Header />
-        <WorkspaceSelector
-          workspaces={data.workspaces}
-          onSelect={handleWorkspaceSelect}
-          onCreate={handleWorkspaceCreated}
-        />
-      </div>
-    );
-  }
-
   return (
     <TimerProvider>
       <div className="min-h-screen bg-gray-900 flex">
         <Sidebar
-          workspace={selectedWorkspace}
-          projects={data.projects.filter(p => p.workspaceId === selectedWorkspace.id)}
+          projects={data.projects}
           selectedProject={selectedProject}
           activeView={activeView}
           onProjectSelect={handleProjectSelect}
           onProjectCreate={handleProjectCreated}
-          onWorkspaceChange={handleWorkspaceSelect}
           onViewChange={setActiveView}
-          workspaces={data.workspaces}
         />
       
       <div className="flex-1 flex flex-col">
@@ -152,7 +106,6 @@ export default function AppPage() {
           ) : selectedProject ? (
             <ProjectView
               project={selectedProject}
-              workspace={selectedWorkspace}
               data={data}
               onDataUpdate={loadData}
             />

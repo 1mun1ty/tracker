@@ -2,18 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AppData, Project } from '@/types';
 import { loadData, saveData } from '@/lib/storage';
 
-// GET /api/projects - List projects (optionally filtered by workspaceId)
+// GET /api/projects - List all projects
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const workspaceId = searchParams.get('workspaceId');
-
     const appData = loadData();
-    
-    let projects = appData.projects;
-    if (workspaceId) {
-      projects = projects.filter(p => p.workspaceId === workspaceId);
-    }
+    const projects = appData.projects;
 
     return NextResponse.json({
       success: true,
@@ -31,25 +24,16 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { workspaceId, name, description, color, icon } = body;
+    const { name, description, color, icon } = body;
 
-    if (!workspaceId || !name) {
+    if (!name) {
       return NextResponse.json(
-        { success: false, error: 'Workspace ID and project name are required' },
+        { success: false, error: 'Project name is required' },
         { status: 400 }
       );
     }
 
     let appData = loadData();
-
-    // Verify workspace exists
-    const workspace = appData.workspaces.find(w => w.id === workspaceId);
-    if (!workspace) {
-      return NextResponse.json(
-        { success: false, error: 'Workspace not found' },
-        { status: 404 }
-      );
-    }
 
     // Use default user (no authentication required)
     const userId = 'default-user';
@@ -57,7 +41,7 @@ export async function POST(request: NextRequest) {
     // Create project
     const project: Project = {
       id: `project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      workspaceId,
+      workspaceId: 'default-workspace',
       name,
       description,
       color: color || '#3B82F6',

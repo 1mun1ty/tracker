@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Task, Project, Workspace, TaskStatus } from '@/types';
+import { Task, Project, TaskStatus } from '@/types';
 import { Plus, MoreVertical } from 'lucide-react';
 import TaskCard from './TaskCard';
 import TaskModal from './TaskModal';
@@ -9,7 +9,6 @@ import TaskModal from './TaskModal';
 interface TaskKanbanProps {
   tasks: Task[];
   project: Project;
-  workspace: Workspace;
   onTaskUpdate: () => void;
 }
 
@@ -21,7 +20,7 @@ const statusColumns: { status: TaskStatus; label: string; color: string }[] = [
   { status: 'blocked', label: 'Blocked', color: 'bg-red-600' },
 ];
 
-export default function TaskKanban({ tasks, project, workspace, onTaskUpdate }: TaskKanbanProps) {
+export default function TaskKanban({ tasks, project, onTaskUpdate }: TaskKanbanProps) {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [creatingStatus, setCreatingStatus] = useState<TaskStatus | null>(null);
@@ -92,7 +91,6 @@ export default function TaskKanban({ tasks, project, workspace, onTaskUpdate }: 
         <TaskModal
           task={selectedTask || undefined}
           project={project}
-          workspace={workspace}
           initialStatus={creatingStatus || undefined}
           onClose={() => {
             setShowTaskModal(false);

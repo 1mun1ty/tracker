@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Task, Project, Workspace, TaskStatus, Priority } from '@/types';
+import { Task, Project, TaskStatus, Priority } from '@/types';
 import { Plus, Filter, Search } from 'lucide-react';
 import TaskModal from './TaskModal';
 import TaskRow from './TaskRow';
@@ -9,11 +9,10 @@ import TaskRow from './TaskRow';
 interface TaskListProps {
   tasks: Task[];
   project: Project;
-  workspace: Workspace;
   onTaskUpdate: () => void;
 }
 
-export default function TaskList({ tasks, project, workspace, onTaskUpdate }: TaskListProps) {
+export default function TaskList({ tasks, project, onTaskUpdate }: TaskListProps) {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -139,7 +138,6 @@ export default function TaskList({ tasks, project, workspace, onTaskUpdate }: Ta
         <TaskModal
           task={selectedTask || undefined}
           project={project}
-          workspace={workspace}
           onClose={() => {
             setShowTaskModal(false);
             setSelectedTask(null);

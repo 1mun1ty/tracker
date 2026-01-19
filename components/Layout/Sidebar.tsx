@@ -1,34 +1,27 @@
 'use client';
 
 import { useState } from 'react';
-import { Workspace, Project } from '@/types';
-import { Folder, Plus, ChevronDown, ChevronRight, Settings, Users, Clock } from 'lucide-react';
+import { Project } from '@/types';
+import { Folder, Plus, Clock } from 'lucide-react';
 
 interface SidebarProps {
-  workspace: Workspace;
   projects: Project[];
   selectedProject: Project | null;
   activeView?: 'project' | 'time';
   onProjectSelect: (project: Project) => void;
   onProjectCreate: (project: Project) => void;
-  onWorkspaceChange: (workspace: Workspace) => void;
   onViewChange?: (view: 'project' | 'time') => void;
-  workspaces: Workspace[];
 }
 
 export default function Sidebar({
-  workspace,
   projects,
   selectedProject,
   activeView = 'project',
   onProjectSelect,
   onProjectCreate,
-  onWorkspaceChange,
   onViewChange,
-  workspaces,
 }: SidebarProps) {
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showWorkspaceMenu, setShowWorkspaceMenu] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [color, setColor] = useState('#3B82F6');
@@ -48,7 +41,6 @@ export default function Sidebar({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          workspaceId: workspace.id,
           name,
           description,
           color,
@@ -72,42 +64,9 @@ export default function Sidebar({
 
   return (
     <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col h-screen">
-      {/* Workspace Header */}
+      {/* Header */}
       <div className="p-4 border-b border-gray-700">
-        <div className="relative">
-          <button
-            onClick={() => setShowWorkspaceMenu(!showWorkspaceMenu)}
-            className="w-full flex items-center justify-between p-2 hover:bg-gray-700 rounded-lg transition-colors"
-          >
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center text-white font-semibold">
-                {workspace.name.charAt(0).toUpperCase()}
-              </div>
-              <span className="text-white font-medium truncate">{workspace.name}</span>
-            </div>
-            <ChevronDown className="w-4 h-4 text-gray-400" />
-          </button>
-
-          {showWorkspaceMenu && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10">
-              {workspaces.map((ws) => (
-                <button
-                  key={ws.id}
-                  onClick={() => {
-                    onWorkspaceChange(ws);
-                    setShowWorkspaceMenu(false);
-                  }}
-                  className="w-full px-4 py-2 text-left hover:bg-gray-700 text-white flex items-center gap-2"
-                >
-                  <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white text-xs font-semibold">
-                    {ws.name.charAt(0).toUpperCase()}
-                  </div>
-                  {ws.name}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        <h1 className="text-xl font-bold text-white">Time Tracker</h1>
       </div>
 
       {/* Navigation */}
@@ -170,14 +129,6 @@ export default function Sidebar({
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="p-4 border-t border-gray-700">
-        <button className="w-full flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
-          <Settings className="w-4 h-4" />
-          <span className="text-sm">Settings</span>
-        </button>
       </div>
 
       {/* Create Project Modal */}
