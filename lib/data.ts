@@ -1,33 +1,24 @@
-import { ProjectData, Phase, Month, Week, Task, Milestone } from '@/types';
+import { AppData, Workspace, Project, Task, User, Comment, Attachment, TimeEntry, Activity, Notification, TaskView } from '@/types';
 
-// Server-side file operations will be handled dynamically
-// This avoids TypeScript errors in browser context
-
-function getInitialData(): ProjectData {
+function getInitialData(): AppData {
   return {
-    phases: [],
-    months: [],
-    weeks: [],
+    workspaces: [],
+    projects: [],
     tasks: [],
-    milestones: [],
+    comments: [],
+    attachments: [],
     timeEntries: [],
-    stats: {
-      totalTasks: 0,
-      completedTasks: 0,
-      inProgressTasks: 0,
-      pendingTasks: 0,
-      totalEstimatedHours: 0,
-      totalActualHours: 0,
-      completionPercentage: 0,
-    },
+    activities: [],
+    notifications: [],
+    views: [],
+    stats: {},
     lastUpdated: new Date().toISOString(),
   };
 }
 
-export function loadData(): ProjectData {
+export function loadData(): AppData {
   if (typeof window !== 'undefined') {
-    // Client-side: use localStorage
-    const stored = localStorage.getItem('projectData');
+    const stored = localStorage.getItem('taskTrackerData');
     if (stored) {
       try {
         return JSON.parse(stored);
@@ -38,62 +29,57 @@ export function loadData(): ProjectData {
     return getInitialData();
   }
 
-  // Server-side: use file system (only in Node.js)
+  // Server-side: use file system
   if (typeof window === 'undefined') {
     try {
-      // Dynamic import to avoid TypeScript errors
       const fs = eval('require')('fs');
       const path = eval('require')('path');
       const cwd = (globalThis as any).process?.cwd?.() || '';
-      const DATA_FILE = path.join(cwd, 'data', 'project.json');
+      const DATA_FILE = path.join(cwd, 'data', 'app.json');
       
       if (fs.existsSync(DATA_FILE)) {
         const content = fs.readFileSync(DATA_FILE, 'utf-8');
         return JSON.parse(content);
       }
     } catch (error) {
-      // Not in Node.js or file doesn't exist
+      console.error('Error loading data:', error);
     }
   }
   return getInitialData();
 }
 
-export function saveData(data: ProjectData): void {
+export function saveData(data: AppData): void {
   data.lastUpdated = new Date().toISOString();
   
   if (typeof window !== 'undefined') {
-    // Client-side: use localStorage
-    localStorage.setItem('projectData', JSON.stringify(data));
+    localStorage.setItem('taskTrackerData', JSON.stringify(data));
     return;
   }
 
-  // Server-side: use file system (only in Node.js)
+  // Server-side: use file system
   if (typeof window === 'undefined') {
     try {
-      // Dynamic import to avoid TypeScript errors
       const fs = eval('require')('fs');
       const path = eval('require')('path');
       const cwd = (globalThis as any).process?.cwd?.() || '';
       const DATA_DIR = path.join(cwd, 'data');
-      const DATA_FILE = path.join(DATA_DIR, 'project.json');
+      const DATA_FILE = path.join(DATA_DIR, 'app.json');
       
-      // Ensure directory exists
       if (!fs.existsSync(DATA_DIR)) {
         fs.mkdirSync(DATA_DIR, { recursive: true });
       }
       
       fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
     } catch (error) {
-      // Not in Node.js environment or write failed
       console.error('Error saving data:', error);
     }
   }
 }
 
-// Client-side data management functions
+// Client-side data management
 export class DataManager {
   private static instance: DataManager;
-  private data: ProjectData;
+  private data: AppData;
 
   private constructor() {
     this.data = loadData();
@@ -106,33 +92,80 @@ export class DataManager {
     return DataManager.instance;
   }
 
-  getData(): ProjectData {
+  getData(): AppData {
     return this.data;
   }
 
-  updateData(updater: (data: ProjectData) => ProjectData): void {
+  updateData(updater: (data: AppData) => AppData): void {
     this.data = updater(this.data);
-    this.updateStats();
     saveData(this.data);
   }
 
-  private updateStats(): void {
-    const tasks = this.data.tasks;
-    // Calculate actual hours from timeEntries (more accurate)
-    const totalActualMinutes = this.data.timeEntries.reduce((sum, te) => sum + (te.duration || 0), 0);
-    const totalActualHours = totalActualMinutes / 60;
-    
-    this.data.stats = {
-      totalTasks: tasks.length,
-      completedTasks: tasks.filter(t => t.status === 'completed').length,
-      inProgressTasks: tasks.filter(t => t.status === 'in_progress').length,
-      pendingTasks: tasks.filter(t => t.status === 'pending').length,
-      totalEstimatedHours: tasks.reduce((sum, t) => sum + (t.estimatedHours || 0), 0),
-      totalActualHours: totalActualHours,
-      completionPercentage: tasks.length > 0 
-        ? Math.round((tasks.filter(t => t.status === 'completed').length / tasks.length) * 100)
-        : 0,
-    };
+  // User methods
+  setCurrentUser(user: User): void {
+    this.updateData(data => ({
+      ...data,
+      currentUser: user,
+    }));
+  }
+
+  getCurrentUser(): User | undefined {
+    return this.data.currentUser;
+  }
+
+  // Workspace methods
+  addWorkspace(workspace: Workspace): void {
+    this.updateData(data => ({
+      ...data,
+      workspaces: [...data.workspaces, workspace],
+    }));
+  }
+
+  updateWorkspace(workspaceId: string, updates: Partial<Workspace>): void {
+    this.updateData(data => ({
+      ...data,
+      workspaces: data.workspaces.map(w => 
+        w.id === workspaceId 
+          ? { ...w, ...updates, updatedAt: new Date().toISOString() }
+          : w
+      ),
+    }));
+  }
+
+  deleteWorkspace(workspaceId: string): void {
+    this.updateData(data => ({
+      ...data,
+      workspaces: data.workspaces.filter(w => w.id !== workspaceId),
+      projects: data.projects.filter(p => p.workspaceId !== workspaceId),
+      tasks: data.tasks.filter(t => t.workspaceId !== workspaceId),
+    }));
+  }
+
+  // Project methods
+  addProject(project: Project): void {
+    this.updateData(data => ({
+      ...data,
+      projects: [...data.projects, project],
+    }));
+  }
+
+  updateProject(projectId: string, updates: Partial<Project>): void {
+    this.updateData(data => ({
+      ...data,
+      projects: data.projects.map(p => 
+        p.id === projectId 
+          ? { ...p, ...updates, updatedAt: new Date().toISOString() }
+          : p
+      ),
+    }));
+  }
+
+  deleteProject(projectId: string): void {
+    this.updateData(data => ({
+      ...data,
+      projects: data.projects.filter(p => p.id !== projectId),
+      tasks: data.tasks.filter(t => t.projectId !== projectId),
+    }));
   }
 
   // Task methods
@@ -158,15 +191,45 @@ export class DataManager {
     this.updateData(data => ({
       ...data,
       tasks: data.tasks.filter(t => t.id !== taskId),
+      comments: data.comments.filter(c => c.taskId !== taskId),
+      attachments: data.attachments.filter(a => a.taskId === taskId),
       timeEntries: data.timeEntries.filter(te => te.taskId !== taskId),
     }));
   }
 
+  // Comment methods
+  addComment(comment: Comment): void {
+    this.updateData(data => ({
+      ...data,
+      comments: [...data.comments, comment],
+    }));
+  }
+
+  updateComment(commentId: string, updates: Partial<Comment>): void {
+    this.updateData(data => ({
+      ...data,
+      comments: data.comments.map(c => 
+        c.id === commentId 
+          ? { ...c, ...updates, updatedAt: new Date().toISOString(), editedAt: new Date().toISOString() }
+          : c
+      ),
+    }));
+  }
+
+  deleteComment(commentId: string): void {
+    this.updateData(data => ({
+      ...data,
+      comments: data.comments.filter(c => c.id !== commentId),
+    }));
+  }
+
   // Time entry methods
-  addTimeEntry(entry: Omit<import('@/types').TimeEntry, 'id'>): void {
-    const newEntry: import('@/types').TimeEntry = {
+  addTimeEntry(entry: Omit<TimeEntry, 'id'>): void {
+    const newEntry: TimeEntry = {
       ...entry,
       id: `te-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
     
     this.updateData(data => ({
@@ -185,53 +248,66 @@ export class DataManager {
     }
   }
 
-  // Phase methods
-  addPhase(phase: Phase): void {
+  // Activity methods
+  addActivity(activity: Omit<Activity, 'id'>): void {
+    const newActivity: Activity = {
+      ...activity,
+      id: `act-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      createdAt: new Date().toISOString(),
+    };
+    
     this.updateData(data => ({
       ...data,
-      phases: [...data.phases, phase],
+      activities: [newActivity, ...data.activities].slice(0, 1000), // Keep last 1000
     }));
   }
 
-  // Month methods
-  addMonth(month: Month): void {
+  // Notification methods
+  addNotification(notification: Omit<Notification, 'id'>): void {
+    const newNotification: Notification = {
+      ...notification,
+      id: `notif-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      createdAt: new Date().toISOString(),
+    };
+    
     this.updateData(data => ({
       ...data,
-      months: [...data.months, month],
+      notifications: [newNotification, ...data.notifications],
     }));
   }
 
-  // Week methods
-  addWeek(week: Week): void {
+  markNotificationRead(notificationId: string): void {
     this.updateData(data => ({
       ...data,
-      weeks: [...data.weeks, week],
-    }));
-  }
-
-  // Milestone methods
-  addMilestone(milestone: Milestone): void {
-    this.updateData(data => ({
-      ...data,
-      milestones: [...data.milestones, milestone],
-    }));
-  }
-
-  updateMilestone(milestoneId: string, updates: Partial<Milestone>): void {
-    this.updateData(data => ({
-      ...data,
-      milestones: data.milestones.map(m => 
-        m.id === milestoneId 
-          ? { ...m, ...updates }
-          : m
+      notifications: data.notifications.map(n => 
+        n.id === notificationId ? { ...n, read: true } : n
       ),
     }));
   }
 
-  deleteMilestone(milestoneId: string): void {
+  // View methods
+  addView(view: TaskView): void {
     this.updateData(data => ({
       ...data,
-      milestones: data.milestones.filter(m => m.id !== milestoneId),
+      views: [...data.views, view],
+    }));
+  }
+
+  updateView(viewId: string, updates: Partial<TaskView>): void {
+    this.updateData(data => ({
+      ...data,
+      views: data.views.map(v => 
+        v.id === viewId 
+          ? { ...v, ...updates, updatedAt: new Date().toISOString() }
+          : v
+      ),
+    }));
+  }
+
+  deleteView(viewId: string): void {
+    this.updateData(data => ({
+      ...data,
+      views: data.views.filter(v => v.id !== viewId),
     }));
   }
 }
