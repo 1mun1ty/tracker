@@ -60,24 +60,9 @@ export default function AppPage() {
   };
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/auth/session');
-        const result = await response.json();
-        
-        if (!result.success) {
-          router.push('/login');
-          return;
-        }
-      } catch (error) {
-        router.push('/login');
-      }
-    };
-
-    checkAuth();
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  }, []);
 
 
   const handleWorkspaceSelect = (workspace: Workspace) => {

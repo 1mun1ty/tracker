@@ -69,8 +69,7 @@ export async function PUT(
     }
 
     const oldTask = appData.tasks[taskIndex];
-    const sessionCookie = request.cookies.get('session');
-    const userId = sessionCookie ? JSON.parse(sessionCookie.value).userId : 'system';
+    const userId = 'default-user';
 
     // Update task
     const updatedTask: Task = {
@@ -166,8 +165,7 @@ export async function DELETE(
     }
 
     const task = appData.tasks[taskIndex];
-    const sessionCookie = request.cookies.get('session');
-    const userId = sessionCookie ? JSON.parse(sessionCookie.value).userId : 'system';
+    const userId = 'default-user';
 
     // Delete task and related data
     appData.tasks.splice(taskIndex, 1);

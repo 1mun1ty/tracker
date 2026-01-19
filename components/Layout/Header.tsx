@@ -1,14 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Bell, Search, User, LogOut } from 'lucide-react';
+import { Bell, Search } from 'lucide-react';
 
 export default function Header() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     loadNotifications();
@@ -28,10 +25,6 @@ export default function Header() {
     }
   };
 
-  const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/login');
-  };
 
   return (
     <header className="h-16 bg-gray-800 border-b border-gray-700 flex items-center justify-between px-6">
@@ -73,29 +66,6 @@ export default function Header() {
           )}
         </div>
 
-        {/* User Menu */}
-        <div className="relative">
-          <button
-            onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2 p-2 hover:bg-gray-700 rounded-lg transition-colors"
-          >
-            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-              U
-            </div>
-          </button>
-
-          {showUserMenu && (
-            <div className="absolute right-0 top-full mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-50">
-              <button
-                onClick={handleLogout}
-                className="w-full px-4 py-2 text-left hover:bg-gray-700 text-white flex items-center gap-2 text-sm"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </button>
-            </div>
-          )}
-        </div>
       </div>
     </header>
   );

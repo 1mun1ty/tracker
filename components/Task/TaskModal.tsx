@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Task, Project, Workspace, TaskStatus, Priority } from '@/types';
-import { X, Calendar, Tag, User, FileText } from 'lucide-react';
+import { X, Calendar, Tag, User, FileText, Trash2 } from 'lucide-react';
 import TaskTimer from '@/components/Timer/TaskTimer';
 
 interface TaskModalProps {
@@ -30,6 +30,7 @@ export default function TaskModal({
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -74,6 +75,31 @@ export default function TaskModal({
       console.error('Failed to save task:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!task) return;
+    
+    if (!confirm(`Are you sure you want to delete "${task.title}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      const response = await fetch(`/api/tasks/${task.id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        onSave();
+        onClose();
+      }
+    } catch (error) {
+      console.error('Failed to delete task:', error);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -232,6 +258,17 @@ export default function TaskModal({
           </div>
 
           <div className="flex gap-3 pt-4 border-t border-gray-700">
+            {task && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={deleting}
+                className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50"
+              >
+                <Trash2 className="w-4 h-4" />
+                {deleting ? 'Deleting...' : 'Delete'}
+              </button>
+            )}
             <button
               type="submit"
               disabled={loading}

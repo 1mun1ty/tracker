@@ -7,19 +7,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is logged in
-    fetch('/api/auth/session')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          router.push('/app');
-        } else {
-          router.push('/login');
-        }
-      })
-      .catch(() => {
-        router.push('/login');
-      });
+    router.push('/app');
   }, [router]);
 
   return (

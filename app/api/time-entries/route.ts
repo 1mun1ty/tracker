@@ -63,17 +63,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get current user from session
-    const sessionCookie = request.cookies.get('session');
-    if (!sessionCookie) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const session = JSON.parse(sessionCookie.value);
-    const userId = session.userId;
+    // Use default user (no authentication required)
+    const userId = 'default-user';
 
     // Calculate duration if not provided
     let calculatedDuration = duration;

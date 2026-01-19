@@ -4,16 +4,8 @@ import { AppData, Notification } from '@/types';
 // GET /api/notifications - Get user notifications
 export async function GET(request: NextRequest) {
   try {
-    const sessionCookie = request.cookies.get('session');
-    if (!sessionCookie) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const session = JSON.parse(sessionCookie.value);
-    const userId = session.userId;
+    // Use default user (no authentication required)
+    const userId = 'default-user';
 
     const fs = require('fs');
     const path = require('path');
