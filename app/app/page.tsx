@@ -8,14 +8,13 @@ import WorkspaceSelector from '@/components/Workspace/WorkspaceSelector';
 import ProjectView from '@/components/Project/ProjectView';
 import Sidebar from '@/components/Layout/Sidebar';
 import Header from '@/components/Layout/Header';
-import TimerBanner from '@/components/Timer/TimerBanner';
-import TimeTracker from '@/components/TimeTracker/TimeTracker';
+import TimeDashboard from '@/components/TimeTracker/TimeDashboard';
 
 export default function AppPage() {
   const [data, setData] = useState<AppData | null>(null);
   const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [activeView, setActiveView] = useState<'project' | 'time'>('project');
+  const [activeView, setActiveView] = useState<'time' | 'project'>('time');
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -156,16 +155,12 @@ export default function AppPage() {
       
       <div className="flex-1 flex flex-col">
         <Header />
-        <TimerBanner
-          tasks={data.tasks}
-          onStop={loadData}
-        />
         <main className="flex-1 overflow-auto">
           {activeView === 'time' ? (
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <TimeTracker
-                tasks={data.tasks}
+              <TimeDashboard
                 projects={data.projects}
+                tasks={data.tasks}
                 onUpdate={loadData}
               />
             </div>

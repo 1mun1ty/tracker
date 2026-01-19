@@ -1,31 +1,29 @@
-# Professional Task Tracker
+# Professional Time Tracker
 
-A modern, professional task management application built with Next.js, TypeScript, and Tailwind CSS. Similar to ClickUp, Slack, and Google Todo, this application provides comprehensive task management with workspaces, projects, teams, and collaboration features.
+A comprehensive time tracking application built with Next.js, TypeScript, and Tailwind CSS. Track time across projects, analyze your productivity, and manage your work hours efficiently.
 
 ## Features
 
-### Core Features
-- ✅ **User Authentication** - Secure login and registration
-- 🏢 **Workspace Management** - Create and manage multiple workspaces
-- 📁 **Project Organization** - Organize tasks within projects
-- 📋 **Task Management** - Full CRUD operations for tasks
-- 🎯 **Multiple Views** - Kanban board, List view, and Calendar (coming soon)
-- 🔍 **Advanced Filtering** - Filter by status, priority, assignee, tags
-- 🏷️ **Tags & Labels** - Organize tasks with custom tags
-- ⏰ **Due Dates** - Set and track task deadlines
-- 👥 **Team Collaboration** - Assign tasks to team members
-- 💬 **Comments** - Add comments and discussions on tasks
-- 🔔 **Notifications** - Real-time notifications for task updates
-- ⏱️ **Time Tracking** - Track time spent on tasks
-- 📊 **Activity Logs** - Track all project activities
+### Core Time Tracking
+- ⏱️ **Real-Time Timer** - Start/stop timer for any task with live elapsed time display
+- 📊 **Time Dashboard** - Comprehensive analytics and insights
+- 📝 **Manual Time Entry** - Add time entries manually with flexible duration formats
+- 📅 **Time Reports** - View time by day, week, month, or all time
+- 🎯 **Project-Based Tracking** - Track time across multiple projects and workspaces
+- 📈 **Analytics & Insights** - Daily averages, project breakdowns, and trends
 
-### Professional Features
-- **Role-Based Access Control** - Owner, Admin, Member, Viewer roles
-- **Workspace Isolation** - Separate workspaces for different teams/projects
-- **Project Templates** - Quick project setup
-- **Custom Views** - Save and reuse custom task views
-- **Search** - Full-text search across tasks and projects
-- **API-First Architecture** - Complete REST API for all operations
+### Time Management
+- **Active Timer Display** - See current timer at a glance with task name and elapsed time
+- **Time Entry History** - Complete log of all time entries with descriptions
+- **Project Time Breakdown** - Visual breakdown of time spent per project
+- **Daily/Weekly/Monthly Views** - Filter and analyze time by period
+- **Time Goals** - Set and track time targets (coming soon)
+
+### Project & Task Integration
+- **Workspace Management** - Organize projects into workspaces
+- **Project Organization** - Create and manage multiple projects
+- **Task Management** - Create tasks and track time against them
+- **Task Views** - Kanban and List views for task management
 
 ## Tech Stack
 
@@ -33,6 +31,7 @@ A modern, professional task management application built with Next.js, TypeScrip
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
+- **Date Handling**: date-fns
 - **Data Storage**: JSON file (easily migratable to PostgreSQL/MongoDB)
 
 ## Getting Started
@@ -64,113 +63,103 @@ npm run build
 npm start
 ```
 
+## Usage
+
+### Starting a Timer
+
+1. Go to the **Time Tracker** dashboard
+2. Select a task from the dropdown
+3. Click **Start Timer**
+4. The timer runs in the background - you'll see it at the top of the page
+5. Click **Stop Timer** when done - time is automatically saved
+
+### Adding Manual Time Entry
+
+1. Click **View All Entries** in the Time Tracker
+2. Click **Add Time Entry**
+3. Select a task
+4. Enter duration (e.g., "2h 30m", "90m", "1.5h")
+5. Add optional description
+6. Select date
+7. Click **Add Entry**
+
+### Viewing Time Analytics
+
+- **Dashboard**: See total time, daily averages, and project breakdowns
+- **Filters**: Filter by time period (Today, Week, Month, All Time) and project
+- **Project Breakdown**: Visual chart showing time distribution across projects
+- **Recent Entries**: Quick view of your latest time entries
+
+### Managing Projects
+
+1. Create a workspace (if you don't have one)
+2. Create projects within the workspace
+3. Create tasks within projects
+4. Track time against tasks
+5. View time analytics per project
+
 ## Project Structure
 
 ```
 ├── app/
 │   ├── api/              # API routes
-│   │   ├── auth/         # Authentication endpoints
+│   │   ├── auth/         # Authentication
 │   │   ├── workspaces/   # Workspace management
 │   │   ├── projects/     # Project management
-│   │   ├── tasks/        # Task CRUD operations
-│   │   ├── comments/     # Comment management
-│   │   ├── time-entries/ # Time tracking
-│   │   └── notifications/ # Notifications
-│   ├── app/              # Main application page
+│   │   ├── tasks/        # Task management
+│   │   └── time-entries/ # Time tracking API
+│   ├── app/              # Main application
 │   ├── login/            # Login page
 │   └── register/         # Registration page
 ├── components/
-│   ├── Auth/             # Authentication components
-│   ├── Layout/            # Layout components (Header, Sidebar)
-│   ├── Workspace/         # Workspace components
-│   ├── Project/           # Project components
-│   └── Task/              # Task management components
+│   ├── TimeTracker/     # Time tracking components
+│   │   ├── TimeDashboard.tsx  # Main dashboard
+│   │   ├── TimeTracker.tsx     # Time entry list
+│   │   └── ActiveTimer.tsx     # Active timer display
+│   ├── Timer/            # Timer components
+│   ├── Project/          # Project components
+│   └── Layout/           # Layout components
 ├── lib/
-│   └── data.ts            # Data management layer
-├── types/
-│   └── index.ts           # TypeScript type definitions
-└── data/                  # Data storage directory
+│   ├── timerContext.tsx  # Timer state management
+│   └── storage.ts        # Data storage utility
+└── types/
+    └── index.ts          # TypeScript definitions
 ```
 
 ## API Routes
 
-### Authentication
-- `POST /api/auth/login` - User login
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/logout` - User logout
-- `GET /api/auth/session` - Get current session
-
-### Workspaces
-- `GET /api/workspaces` - List all workspaces
-- `POST /api/workspaces` - Create workspace
-- `GET /api/workspaces/[id]` - Get workspace
-- `PUT /api/workspaces/[id]` - Update workspace
-- `DELETE /api/workspaces/[id]` - Delete workspace
-
-### Projects
-- `GET /api/projects` - List projects (filter by workspaceId)
-- `POST /api/projects` - Create project
-- `GET /api/projects/[id]` - Get project
-- `PUT /api/projects/[id]` - Update project
-- `DELETE /api/projects/[id]` - Delete project
-
-### Tasks
-- `GET /api/tasks` - List tasks (filter by projectId, workspaceId, status, assigneeId)
-- `POST /api/tasks` - Create task
-- `GET /api/tasks/[id]` - Get task
-- `PUT /api/tasks/[id]` - Update task
-- `DELETE /api/tasks/[id]` - Delete task
-
-### Comments
-- `GET /api/comments` - List comments (filter by taskId)
-- `POST /api/comments` - Create comment
-- `PUT /api/comments/[id]` - Update comment
-- `DELETE /api/comments/[id]` - Delete comment
-
-### Time Entries
-- `GET /api/time-entries` - List time entries
+### Time Tracking
+- `GET /api/time-entries` - List time entries (filter by taskId, userId, date)
 - `POST /api/time-entries` - Create time entry
 
-### Notifications
-- `GET /api/notifications` - Get user notifications
-- `PUT /api/notifications?id=[id]` - Mark notification as read
+### Projects & Tasks
+- `GET /api/projects` - List projects
+- `POST /api/projects` - Create project
+- `GET /api/tasks` - List tasks
+- `POST /api/tasks` - Create task
 
-## Usage
+See full API documentation in the codebase.
 
-### Creating Your First Workspace
+## Time Tracking Features
 
-1. Register/Login to your account
-2. Click "Create Workspace" or select an existing one
-3. Add a name and description for your workspace
+### Duration Formats
+When adding manual time entries, you can use various formats:
+- `"2h 30m"` - 2 hours and 30 minutes
+- `"90m"` - 90 minutes
+- `"1.5h"` - 1.5 hours
+- `"120"` - 120 minutes (defaults to minutes if no unit)
 
-### Creating Projects
+### Timer Features
+- **Persistent Timer**: Timer persists across page refreshes (stored in localStorage)
+- **Background Tracking**: Timer continues running even when you navigate away
+- **Automatic Saving**: Time is automatically saved when you stop the timer
+- **Real-Time Display**: See elapsed time update every second
 
-1. Select a workspace from the sidebar
-2. Click the "+" button in the Projects section
-3. Fill in project details (name, description, color)
-4. Click "Create"
-
-### Managing Tasks
-
-1. Select a project from the sidebar
-2. Choose your preferred view (Kanban or List)
-3. Click "New Task" or the "+" button in a column
-4. Fill in task details:
-   - Title (required)
-   - Description
-   - Status (To Do, In Progress, In Review, Done, Blocked)
-   - Priority (Low, Medium, High, Urgent)
-   - Due Date
-   - Tags
-5. Click "Create Task"
-
-### Task Views
-
-**Kanban View**: Visualize tasks in columns by status. Drag and drop to change status (coming soon).
-
-**List View**: Table view with all task details. Perfect for detailed task management.
-
-**Calendar View**: Coming soon - View tasks on a calendar timeline.
+### Analytics
+- **Total Time**: Sum of all time entries for selected period
+- **Daily Average**: Average hours per day
+- **Project Breakdown**: Visual breakdown with percentages
+- **Entry Count**: Number of time entries logged
 
 ## Data Storage
 
@@ -182,15 +171,13 @@ Currently, all data is stored in JSON files in the `data/` directory. This makes
 ### Future Enhancements
 
 - Database integration (PostgreSQL/MongoDB)
-- Real-time collaboration with WebSockets
-- File attachments
-- Advanced reporting and analytics
+- Time goals and targets
+- Export to CSV/PDF
+- Time reports and invoices
+- Team time tracking
+- Time approval workflows
+- Integration with calendar apps
 - Mobile app
-- Calendar view
-- Gantt chart view
-- Custom fields
-- Workflow automation
-- Integration with third-party tools
 
 ## Development
 
@@ -199,13 +186,6 @@ Currently, all data is stored in JSON files in the `data/` directory. This makes
 - TypeScript strict mode enabled
 - ESLint configured with Next.js rules
 - Prettier recommended for code formatting
-
-### Adding New Features
-
-1. Define types in `types/index.ts`
-2. Create API routes in `app/api/`
-3. Build UI components in `components/`
-4. Update data layer in `lib/data.ts` if needed
 
 ## License
 

@@ -111,10 +111,10 @@ export default function Sidebar({
       </div>
 
       {/* Navigation */}
-      <div className="p-4 border-b border-gray-700">
+      <div className="p-4 border-b border-gray-700 space-y-2">
         <button
           onClick={() => onViewChange?.('time')}
-          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors mb-2 ${
+          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
             activeView === 'time'
               ? 'bg-blue-600 text-white'
               : 'text-gray-300 hover:bg-gray-700'
@@ -122,6 +122,17 @@ export default function Sidebar({
         >
           <Clock className="w-4 h-4" />
           <span className="text-sm font-medium">Time Tracker</span>
+        </button>
+        <button
+          onClick={() => onViewChange?.('project')}
+          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+            activeView === 'project'
+              ? 'bg-blue-600 text-white'
+              : 'text-gray-300 hover:bg-gray-700'
+          }`}
+        >
+          <Folder className="w-4 h-4" />
+          <span className="text-sm font-medium">Projects</span>
         </button>
       </div>
 
