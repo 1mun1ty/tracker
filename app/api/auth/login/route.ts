@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AppData, User, Session } from '@/types';
+import { loadData, saveData } from '@/lib/storage';
 
 // In production, use proper authentication (JWT, OAuth, etc.)
 // This is a simplified version for demo purposes
@@ -15,28 +16,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Load data to check user
-    const fs = require('fs');
-    const path = require('path');
-    const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
-    
-    let appData: AppData = {
-      workspaces: [],
-      projects: [],
-      tasks: [],
-      comments: [],
-      attachments: [],
-      timeEntries: [],
-      activities: [],
-      notifications: [],
-      views: [],
-      stats: {},
-      lastUpdated: new Date().toISOString(),
-    };
-
-    if (fs.existsSync(DATA_FILE)) {
-      appData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    }
+    // Load data using storage utility
+    let appData = loadData();
 
     // Find or create user (simplified - in production, use proper password hashing)
     let user = appData.currentUser;
@@ -54,21 +35,12 @@ export async function POST(request: NextRequest) {
       };
       
       appData.currentUser = user;
-      appData.lastUpdated = new Date().toISOString();
-      
-      // Save updated data
-      const DATA_DIR = path.join(process.cwd(), 'data');
-      if (!fs.existsSync(DATA_DIR)) {
-        fs.mkdirSync(DATA_DIR, { recursive: true });
-      }
-      fs.writeFileSync(DATA_FILE, JSON.stringify(appData, null, 2), 'utf-8');
+      saveData(appData);
     } else {
       // Update last login
       user.lastLoginAt = new Date().toISOString();
       appData.currentUser = user;
-      appData.lastUpdated = new Date().toISOString();
-      
-      fs.writeFileSync(DATA_FILE, JSON.stringify(appData, null, 2), 'utf-8');
+      saveData(appData);
     }
 
     // Create session (in production, use secure cookies/JWT)

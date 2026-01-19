@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AppData, Project } from '@/types';
+import { loadData, saveData } from '@/lib/storage';
 
 // GET /api/projects - List projects (optionally filtered by workspaceId)
 export async function GET(request: NextRequest) {
@@ -7,18 +8,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const workspaceId = searchParams.get('workspaceId');
 
-    const fs = require('fs');
-    const path = require('path');
-    const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
-    
-    if (!fs.existsSync(DATA_FILE)) {
-      return NextResponse.json({
-        success: true,
-        data: [],
-      });
-    }
-
-    const appData: AppData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+    const appData = loadData();
     
     let projects = appData.projects;
     if (workspaceId) {
@@ -50,27 +40,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const fs = require('fs');
-    const path = require('path');
-    const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
-    
-    let appData: AppData = {
-      workspaces: [],
-      projects: [],
-      tasks: [],
-      comments: [],
-      attachments: [],
-      timeEntries: [],
-      activities: [],
-      notifications: [],
-      views: [],
-      stats: {},
-      lastUpdated: new Date().toISOString(),
-    };
-
-    if (fs.existsSync(DATA_FILE)) {
-      appData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    }
+    let appData = loadData();
 
     // Verify workspace exists
     const workspace = appData.workspaces.find(w => w.id === workspaceId);
@@ -118,14 +88,7 @@ export async function POST(request: NextRequest) {
     };
 
     appData.projects.push(project);
-    appData.lastUpdated = new Date().toISOString();
-
-    // Save data
-    const DATA_DIR = path.join(process.cwd(), 'data');
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-    fs.writeFileSync(DATA_FILE, JSON.stringify(appData, null, 2), 'utf-8');
+    saveData(appData);
 
     return NextResponse.json({
       success: true,

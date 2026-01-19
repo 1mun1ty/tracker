@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AppData, User } from '@/types';
+import { loadData, saveData } from '@/lib/storage';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,28 +13,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Load data
-    const fs = require('fs');
-    const path = require('path');
-    const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
-    
-    let appData: AppData = {
-      workspaces: [],
-      projects: [],
-      tasks: [],
-      comments: [],
-      attachments: [],
-      timeEntries: [],
-      activities: [],
-      notifications: [],
-      views: [],
-      stats: {},
-      lastUpdated: new Date().toISOString(),
-    };
-
-    if (fs.existsSync(DATA_FILE)) {
-      appData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    }
+    // Load data using storage utility
+    let appData = loadData();
 
     // Check if user already exists
     if (appData.currentUser && appData.currentUser.email === email) {
@@ -55,14 +36,7 @@ export async function POST(request: NextRequest) {
     };
 
     appData.currentUser = user;
-    appData.lastUpdated = new Date().toISOString();
-
-    // Save data
-    const DATA_DIR = path.join(process.cwd(), 'data');
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true });
-    }
-    fs.writeFileSync(DATA_FILE, JSON.stringify(appData, null, 2), 'utf-8');
+    saveData(appData);
 
     return NextResponse.json({
       success: true,
