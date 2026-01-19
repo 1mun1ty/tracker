@@ -2,15 +2,17 @@
 
 import { useState } from 'react';
 import { Workspace, Project } from '@/types';
-import { Folder, Plus, ChevronDown, ChevronRight, Settings, Users } from 'lucide-react';
+import { Folder, Plus, ChevronDown, ChevronRight, Settings, Users, Clock } from 'lucide-react';
 
 interface SidebarProps {
   workspace: Workspace;
   projects: Project[];
   selectedProject: Project | null;
+  activeView?: 'project' | 'time';
   onProjectSelect: (project: Project) => void;
   onProjectCreate: (project: Project) => void;
   onWorkspaceChange: (workspace: Workspace) => void;
+  onViewChange?: (view: 'project' | 'time') => void;
   workspaces: Workspace[];
 }
 
@@ -18,9 +20,11 @@ export default function Sidebar({
   workspace,
   projects,
   selectedProject,
+  activeView = 'project',
   onProjectSelect,
   onProjectCreate,
   onWorkspaceChange,
+  onViewChange,
   workspaces,
 }: SidebarProps) {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -106,6 +110,21 @@ export default function Sidebar({
         </div>
       </div>
 
+      {/* Navigation */}
+      <div className="p-4 border-b border-gray-700">
+        <button
+          onClick={() => onViewChange?.('time')}
+          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors mb-2 ${
+            activeView === 'time'
+              ? 'bg-blue-600 text-white'
+              : 'text-gray-300 hover:bg-gray-700'
+          }`}
+        >
+          <Clock className="w-4 h-4" />
+          <span className="text-sm font-medium">Time Tracker</span>
+        </button>
+      </div>
+
       {/* Projects Section */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="flex items-center justify-between mb-4">
@@ -122,9 +141,12 @@ export default function Sidebar({
           {projects.map((project) => (
             <button
               key={project.id}
-              onClick={() => onProjectSelect(project)}
+              onClick={() => {
+                onProjectSelect(project);
+                onViewChange?.('project');
+              }}
               className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                selectedProject?.id === project.id
+                selectedProject?.id === project.id && activeView === 'project'
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-300 hover:bg-gray-700'
               }`}

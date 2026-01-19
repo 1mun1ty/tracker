@@ -3,15 +3,19 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AppData, Workspace, Project } from '@/types';
+import { TimerProvider } from '@/lib/timerContext';
 import WorkspaceSelector from '@/components/Workspace/WorkspaceSelector';
 import ProjectView from '@/components/Project/ProjectView';
 import Sidebar from '@/components/Layout/Sidebar';
 import Header from '@/components/Layout/Header';
+import TimerBanner from '@/components/Timer/TimerBanner';
+import TimeTracker from '@/components/TimeTracker/TimeTracker';
 
 export default function AppPage() {
   const [data, setData] = useState<AppData | null>(null);
   const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeView, setActiveView] = useState<'project' | 'time'>('project');
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -136,21 +140,36 @@ export default function AppPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
-      <Sidebar
-        workspace={selectedWorkspace}
-        projects={data.projects.filter(p => p.workspaceId === selectedWorkspace.id)}
-        selectedProject={selectedProject}
-        onProjectSelect={handleProjectSelect}
-        onProjectCreate={handleProjectCreated}
-        onWorkspaceChange={handleWorkspaceSelect}
-        workspaces={data.workspaces}
-      />
+    <TimerProvider>
+      <div className="min-h-screen bg-gray-900 flex">
+        <Sidebar
+          workspace={selectedWorkspace}
+          projects={data.projects.filter(p => p.workspaceId === selectedWorkspace.id)}
+          selectedProject={selectedProject}
+          activeView={activeView}
+          onProjectSelect={handleProjectSelect}
+          onProjectCreate={handleProjectCreated}
+          onWorkspaceChange={handleWorkspaceSelect}
+          onViewChange={setActiveView}
+          workspaces={data.workspaces}
+        />
       
       <div className="flex-1 flex flex-col">
         <Header />
+        <TimerBanner
+          tasks={data.tasks}
+          onStop={loadData}
+        />
         <main className="flex-1 overflow-auto">
-          {selectedProject ? (
+          {activeView === 'time' ? (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <TimeTracker
+                tasks={data.tasks}
+                projects={data.projects}
+                onUpdate={loadData}
+              />
+            </div>
+          ) : selectedProject ? (
             <ProjectView
               project={selectedProject}
               workspace={selectedWorkspace}
@@ -167,6 +186,7 @@ export default function AppPage() {
           )}
         </main>
       </div>
-    </div>
+      </div>
+    </TimerProvider>
   );
 }

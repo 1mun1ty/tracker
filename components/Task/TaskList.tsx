@@ -111,6 +111,9 @@ export default function TaskList({ tasks, project, workspace, onTaskUpdate }: Ta
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Due Date
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Time Logged
+              </th>
             </tr>
           </thead>
           <tbody className="bg-gray-900 divide-y divide-gray-700">

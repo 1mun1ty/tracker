@@ -1,7 +1,7 @@
 'use client';
 
 import { Task, Priority } from '@/types';
-import { Clock, User, Tag } from 'lucide-react';
+import { Clock, User, Tag, Timer } from 'lucide-react';
 
 interface TaskCardProps {
   task: Task;
@@ -53,6 +53,13 @@ export default function TaskCard({ task, onClick }: TaskCardProps) {
           <div className="flex items-center gap-1 text-xs text-gray-400">
             <Tag className="w-3 h-3" />
             <span>{task.tags.length}</span>
+          </div>
+        )}
+
+        {task.actualHours && task.actualHours > 0 && (
+          <div className="flex items-center gap-1 text-xs text-gray-400">
+            <Timer className="w-3 h-3" />
+            <span>{task.actualHours.toFixed(1)}h</span>
           </div>
         )}
       </div>

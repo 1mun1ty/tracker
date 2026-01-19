@@ -1,7 +1,7 @@
 'use client';
 
 import { Task } from '@/types';
-import { Clock, User } from 'lucide-react';
+import { Clock, User, Timer } from 'lucide-react';
 
 interface TaskRowProps {
   task: Task;
@@ -62,6 +62,16 @@ export default function TaskRow({ task, onClick }: TaskRowProps) {
           <div className="flex items-center gap-1 text-sm text-gray-400">
             <Clock className="w-4 h-4" />
             <span>{new Date(task.dueDate).toLocaleDateString()}</span>
+          </div>
+        ) : (
+          <span className="text-sm text-gray-500">—</span>
+        )}
+      </td>
+      <td className="px-6 py-4 whitespace-nowrap">
+        {task.actualHours && task.actualHours > 0 ? (
+          <div className="flex items-center gap-1 text-sm text-gray-400">
+            <Timer className="w-4 h-4" />
+            <span>{task.actualHours.toFixed(1)}h</span>
           </div>
         ) : (
           <span className="text-sm text-gray-500">—</span>
