@@ -28,10 +28,10 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(true);
   const [lastMessageCount, setLastMessageCount] = useState(0);
   const [onlineStatus, setOnlineStatus] = useState<OnlineStatus>({});
-  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [userScrolledUp, setUserScrolledUp] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const isFirstLoad = useRef(true);
 
   // Send heartbeat to update online status
   const sendHeartbeat = async () => {
@@ -90,22 +90,21 @@ export default function ChatPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
-  // Only auto-scroll on initial load or when user sends a message
-  useEffect(() => {
-    if (shouldScrollToBottom || isInitialLoad) {
-      scrollToBottom();
-      if (isInitialLoad && messages.length > 0) {
-        setIsInitialLoad(false);
-      }
-    }
-  }, [messages, shouldScrollToBottom, isInitialLoad]);
-
-  // Check if user is near bottom of chat
-  const checkIfNearBottom = () => {
+  // Handle scroll event to detect if user scrolled up
+  const handleScroll = () => {
     const container = messagesContainerRef.current;
-    if (!container) return true;
-    const threshold = 100; // pixels from bottom
-    return container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+    if (!container) return;
+    
+    const threshold = 100;
+    const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+    setUserScrolledUp(!isAtBottom);
+  };
+
+  // Scroll to bottom function - instant for first load, smooth for new messages
+  const scrollToBottom = (smooth = true) => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+    }
   };
 
   const loadMessages = async () => {
@@ -114,20 +113,22 @@ export default function ChatPage() {
       const data = await response.json();
       if (data.success) {
         const newMessages = data.data || [];
-        
-        // Check if there are new messages from others
-        const hasNewMessages = newMessages.length > lastMessageCount;
-        const isNearBottom = checkIfNearBottom();
-        
-        // Only auto-scroll if user is already near bottom or it's initial load
-        if (hasNewMessages && isNearBottom) {
-          setShouldScrollToBottom(true);
-        }
+        const hadNewMessages = newMessages.length > lastMessageCount;
         
         setMessages(newMessages);
         setLastMessageCount(newMessages.length);
         
-        // Always mark chat as viewed when loading messages
+        // Only auto-scroll on first load
+        if (isFirstLoad.current && newMessages.length > 0) {
+          isFirstLoad.current = false;
+          setTimeout(() => scrollToBottom(false), 100);
+        }
+        
+        // Auto-scroll for new messages ONLY if user hasn't scrolled up
+        if (hadNewMessages && !userScrolledUp && !isFirstLoad.current) {
+          scrollToBottom(true);
+        }
+        
         localStorage.setItem('chat_last_viewed', Date.now().toString());
       }
     } catch {
@@ -135,11 +136,6 @@ export default function ChatPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    setShouldScrollToBottom(false);
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -162,8 +158,9 @@ export default function ChatPage() {
 
       const data = await response.json();
       if (data.success) {
-        setShouldScrollToBottom(true); // Scroll to bottom when user sends message
+        setUserScrolledUp(false); // Reset scroll state when sending
         loadMessages();
+        setTimeout(() => scrollToBottom(true), 100); // Scroll after sending
       } else {
         showToast('error', 'Failed to send message');
         setNewMessage(messageContent); // Restore message on failure
@@ -250,7 +247,11 @@ export default function ChatPage() {
       </div>
 
       {/* Messages */}
-      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4">
+      <div 
+        ref={messagesContainerRef} 
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto p-4"
+      >
         <div className="max-w-4xl mx-auto space-y-4">
           {messages.length === 0 ? (
             <div className="text-center py-16">
