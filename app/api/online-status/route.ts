@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'online-status.json');
+const isVercel = process.env.VERCEL === '1';
+const DATA_FILE = isVercel ? '/tmp/online-status.json' : path.join(process.cwd(), 'data', 'online-status.json');
 
 interface OnlineStatus {
   [userId: string]: {
@@ -25,9 +26,11 @@ function loadStatus(): OnlineStatus {
 
 function saveStatus(data: OnlineStatus): void {
   try {
-    const dir = path.dirname(DATA_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+    if (!isVercel) {
+      const dir = path.dirname(DATA_FILE);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
     }
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
   } catch (error) {

@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'chat.json');
+const isVercel = process.env.VERCEL === '1';
+const DATA_FILE = isVercel ? '/tmp/chat.json' : path.join(process.cwd(), 'data', 'chat.json');
 
 interface Message {
   id: string;
@@ -22,6 +23,14 @@ function loadChatData(): ChatData {
       const data = fs.readFileSync(DATA_FILE, 'utf-8');
       return JSON.parse(data);
     }
+    // On Vercel, also check original data file for initial data
+    if (isVercel) {
+      const originalFile = path.join(process.cwd(), 'data', 'chat.json');
+      if (fs.existsSync(originalFile)) {
+        const data = fs.readFileSync(originalFile, 'utf-8');
+        return JSON.parse(data);
+      }
+    }
   } catch (error) {
     console.error('Error loading chat data:', error);
   }
@@ -30,9 +39,11 @@ function loadChatData(): ChatData {
 
 function saveChatData(data: ChatData): void {
   try {
-    const dir = path.dirname(DATA_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+    if (!isVercel) {
+      const dir = path.dirname(DATA_FILE);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
     }
     fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
   } catch (error) {

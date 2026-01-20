@@ -16,6 +16,9 @@ function getInitialData(): AppData {
   };
 }
 
+// Check if running on Vercel (serverless)
+const isVercel = process.env.VERCEL === '1';
+
 export function loadData(): AppData {
   if (typeof window !== 'undefined') {
     const stored = localStorage.getItem('taskTrackerData');
@@ -35,6 +38,16 @@ export function loadData(): AppData {
       const fs = eval('require')('fs');
       const path = eval('require')('path');
       const cwd = (globalThis as any).process?.cwd?.() || '';
+      
+      // On Vercel, try /tmp first for any saved data, fallback to bundled data
+      if (isVercel) {
+        const tmpFile = '/tmp/app-data.json';
+        if (fs.existsSync(tmpFile)) {
+          const content = fs.readFileSync(tmpFile, 'utf-8');
+          return JSON.parse(content);
+        }
+      }
+      
       const DATA_FILE = path.join(cwd, 'data', 'app.json');
       
       if (fs.existsSync(DATA_FILE)) {
@@ -61,6 +74,14 @@ export function saveData(data: AppData): void {
     try {
       const fs = eval('require')('fs');
       const path = eval('require')('path');
+      
+      // On Vercel, use /tmp directory (writable but ephemeral)
+      if (isVercel) {
+        fs.writeFileSync('/tmp/app-data.json', JSON.stringify(data, null, 2), 'utf-8');
+        return;
+      }
+      
+      // Local development: use data directory
       const cwd = (globalThis as any).process?.cwd?.() || '';
       const DATA_DIR = path.join(cwd, 'data');
       const DATA_FILE = path.join(DATA_DIR, 'app.json');
