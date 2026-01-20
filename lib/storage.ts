@@ -1,4 +1,5 @@
 import { AppData } from '@/types';
+import initialData from '@/data/app.json';
 
 // Check if we're on Vercel
 const isVercel = process.env.VERCEL === '1';
@@ -24,17 +25,25 @@ export function loadData(): AppData {
     const path = require('path');
     
     // On Vercel, check /tmp first for any saved data
-    if (isVercel && fs.existsSync(TMP_DATA_FILE)) {
-      return JSON.parse(fs.readFileSync(TMP_DATA_FILE, 'utf-8'));
+    if (isVercel) {
+      if (fs.existsSync(TMP_DATA_FILE)) {
+        return JSON.parse(fs.readFileSync(TMP_DATA_FILE, 'utf-8'));
+      }
+      // Use imported initial data on Vercel (bundled at build time)
+      return initialData as unknown as AppData;
     }
     
-    // Load from bundled data file
+    // Local development: Load from file system
     const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
     if (fs.existsSync(DATA_FILE)) {
       return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
     }
   } catch (error) {
     console.error('Error loading data:', error);
+    // Fallback to imported data
+    if (initialData) {
+      return initialData as unknown as AppData;
+    }
   }
 
   return defaultData;
