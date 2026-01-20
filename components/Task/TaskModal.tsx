@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Task, Project, TaskStatus, Priority } from '@/types';
-import { X, Calendar, Tag, User, FileText, Trash2 } from 'lucide-react';
-import TaskTimer from '@/components/Timer/TaskTimer';
+import { X, Trash2 } from 'lucide-react';
 
 interface TaskModalProps {
   task?: Task;
@@ -200,14 +199,6 @@ export default function TaskModal({
               className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Time Tracking Section */}
-          {task && (
-            <div className="pt-4 border-t border-gray-700">
-              <h3 className="text-sm font-medium text-gray-300 mb-3">Time Tracking</h3>
-              <TaskTimer task={task} onTimeUpdate={onSave} />
-            </div>
-          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">

@@ -5,7 +5,7 @@ import { loadData, saveData } from '@/lib/storage';
 export async function GET(request: NextRequest) {
   try {
     const appData = loadData() as any;
-    const items = appData.projects || [];
+    const items = appData.attendances || [];
 
     return NextResponse.json({ success: true, data: items });
   } catch (error: any) {
@@ -22,18 +22,18 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const appData = loadData() as any;
     
-    if (!appData.projects) {
-      appData.projects = [];
+    if (!appData.attendances) {
+      appData.attendances = [];
     }
 
     const newItem = {
-      id: `projects-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: `attendance-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       ...body,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
-    appData.projects.push(newItem);
+    appData.attendances.push(newItem);
     saveData(appData);
 
     return NextResponse.json({ success: true, data: newItem }, { status: 201 });

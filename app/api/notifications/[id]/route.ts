@@ -9,7 +9,7 @@ export async function GET(
   try {
     const { id } = await params;
     const appData = loadData() as any;
-    const items = appData.tasks || [];
+    const items = appData.notifications || [];
     const item = items.find((i: any) => i.id === id);
     
     if (!item) {
@@ -38,11 +38,11 @@ export async function PUT(
     const body = await request.json();
     const appData = loadData() as any;
     
-    if (!appData.tasks) {
-      appData.tasks = [];
+    if (!appData.notifications) {
+      appData.notifications = [];
     }
     
-    const index = appData.tasks.findIndex((i: any) => i.id === id);
+    const index = appData.notifications.findIndex((i: any) => i.id === id);
     
     if (index === -1) {
       return NextResponse.json(
@@ -51,15 +51,15 @@ export async function PUT(
       );
     }
 
-    appData.tasks[index] = {
-      ...appData.tasks[index],
+    appData.notifications[index] = {
+      ...appData.notifications[index],
       ...body,
       updatedAt: new Date().toISOString(),
     };
     
     saveData(appData);
 
-    return NextResponse.json({ success: true, data: appData.tasks[index] });
+    return NextResponse.json({ success: true, data: appData.notifications[index] });
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || 'Failed to update item' },
@@ -77,14 +77,14 @@ export async function DELETE(
     const { id } = await params;
     const appData = loadData() as any;
     
-    if (!appData.tasks) {
+    if (!appData.notifications) {
       return NextResponse.json(
         { success: false, error: 'Item not found' },
         { status: 404 }
       );
     }
     
-    const index = appData.tasks.findIndex((i: any) => i.id === id);
+    const index = appData.notifications.findIndex((i: any) => i.id === id);
     
     if (index === -1) {
       return NextResponse.json(
@@ -93,7 +93,7 @@ export async function DELETE(
       );
     }
 
-    appData.tasks.splice(index, 1);
+    appData.notifications.splice(index, 1);
     saveData(appData);
 
     return NextResponse.json({ success: true, message: 'Item deleted successfully' });

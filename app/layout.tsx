@@ -1,19 +1,19 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'AI SOC & Pentest Agent - Project Tracker',
-  description: 'Comprehensive project management for AI-powered SOC and Pentest Agent development',
-}
+  title: 'TimeFlow - Learning Time Tracker',
+  description: 'Track your SIEM Security Learning Roadmap progress',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
-  )
+  );
 }

@@ -130,6 +130,7 @@ export interface TimeEntry {
   id: string;
   taskId: string;
   userId: string;
+  userName?: string;
   startTime: string;
   endTime?: string;
   duration?: number; // in minutes

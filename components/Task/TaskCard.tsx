@@ -42,14 +42,14 @@ export default function TaskCard({ task, onClick }: TaskCardProps) {
           </div>
         )}
 
-        {task.assigneeIds.length > 0 && (
+        {task.assigneeIds && task.assigneeIds.length > 0 && (
           <div className="flex items-center gap-1 text-xs text-gray-400">
             <User className="w-3 h-3" />
             <span>{task.assigneeIds.length}</span>
           </div>
         )}
 
-        {task.tags.length > 0 && (
+        {task.tags && task.tags.length > 0 && (
           <div className="flex items-center gap-1 text-xs text-gray-400">
             <Tag className="w-3 h-3" />
             <span>{task.tags.length}</span>

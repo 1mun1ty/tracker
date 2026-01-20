@@ -1,99 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AppData, Notification } from '@/types';
+import { loadData, saveData } from '@/lib/storage';
 
-// GET /api/notifications - Get user notifications
+// GET - List all items
 export async function GET(request: NextRequest) {
   try {
-    // Use default user (no authentication required)
-    const userId = 'default-user';
+    const appData = loadData() as any;
+    const items = appData.notifications || [];
 
-    const fs = require('fs');
-    const path = require('path');
-    const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
-    
-    if (!fs.existsSync(DATA_FILE)) {
-      return NextResponse.json({
-        success: true,
-        data: [],
-      });
-    }
-
-    const appData: AppData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    
-    // Get user's notifications
-    const notifications = appData.notifications
-      .filter(n => n.userId === userId)
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
-    // Get unread count
-    const unreadCount = notifications.filter(n => !n.read).length;
-
-    return NextResponse.json({
-      success: true,
-      data: notifications,
-      unreadCount,
-    });
+    return NextResponse.json({ success: true, data: items });
   } catch (error: any) {
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to fetch notifications' },
+      { success: false, error: error.message || 'Failed to fetch items' },
       { status: 500 }
     );
   }
 }
 
-// PUT /api/notifications/[id]/read - Mark notification as read
-export async function PUT(request: NextRequest) {
+// POST - Create new item
+export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const notificationId = searchParams.get('id');
-
-    if (!notificationId) {
-      return NextResponse.json(
-        { success: false, error: 'Notification ID is required' },
-        { status: 400 }
-      );
-    }
-
-    const sessionCookie = request.cookies.get('session');
-    if (!sessionCookie) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    const fs = require('fs');
-    const path = require('path');
-    const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
+    const body = await request.json();
+    const appData = loadData() as any;
     
-    if (!fs.existsSync(DATA_FILE)) {
-      return NextResponse.json(
-        { success: false, error: 'Notification not found' },
-        { status: 404 }
-      );
+    if (!appData.notifications) {
+      appData.notifications = [];
     }
 
-    const appData: AppData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    const notificationIndex = appData.notifications.findIndex(n => n.id === notificationId);
+    const newItem = {
+      id: `notifications-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      ...body,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
 
-    if (notificationIndex === -1) {
-      return NextResponse.json(
-        { success: false, error: 'Notification not found' },
-        { status: 404 }
-      );
-    }
+    appData.notifications.push(newItem);
+    saveData(appData);
 
-    appData.notifications[notificationIndex].read = true;
-    appData.lastUpdated = new Date().toISOString();
-    fs.writeFileSync(DATA_FILE, JSON.stringify(appData, null, 2), 'utf-8');
-
-    return NextResponse.json({
-      success: true,
-      data: appData.notifications[notificationIndex],
-    });
+    return NextResponse.json({ success: true, data: newItem }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to update notification' },
+      { success: false, error: error.message || 'Failed to create item' },
       { status: 500 }
     );
   }

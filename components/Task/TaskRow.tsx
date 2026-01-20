@@ -54,7 +54,7 @@ export default function TaskRow({ task, onClick }: TaskRowProps) {
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center gap-1 text-sm text-gray-400">
           <User className="w-4 h-4" />
-          <span>{task.assigneeIds.length}</span>
+          <span>{task.assigneeIds?.length || 0}</span>
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">

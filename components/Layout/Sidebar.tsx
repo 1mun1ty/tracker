@@ -2,30 +2,44 @@
 
 import { useState } from 'react';
 import { Project } from '@/types';
-import { Folder, Plus, Clock } from 'lucide-react';
+import { useUser } from '@/lib/userContext';
+import { 
+  Folder, Plus, Clock, BarChart3, Calendar, 
+  MessageCircle, ChevronDown, ChevronRight,
+  Briefcase, LogOut
+} from 'lucide-react';
 
 interface SidebarProps {
   projects: Project[];
   selectedProject: Project | null;
-  activeView?: 'project' | 'time';
+  activeView?: string;
   onProjectSelect: (project: Project) => void;
   onProjectCreate: (project: Project) => void;
-  onViewChange?: (view: 'project' | 'time') => void;
+  onViewChange?: (view: string) => void;
 }
+
+const navItems = [
+  { id: 'dashboard' as const, label: 'Dashboard', icon: BarChart3 },
+  { id: 'projects' as const, label: 'Projects', icon: Briefcase },
+  { id: 'attendance' as const, label: 'Attendance', icon: Calendar },
+  { id: 'chat' as const, label: 'Chat', icon: MessageCircle },
+];
 
 export default function Sidebar({
   projects,
   selectedProject,
-  activeView = 'project',
+  activeView = 'dashboard',
   onProjectSelect,
   onProjectCreate,
   onViewChange,
 }: SidebarProps) {
+  const { user, logout } = useUser();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [color, setColor] = useState('#3B82F6');
   const [loading, setLoading] = useState(false);
+  const [projectsExpanded, setProjectsExpanded] = useState(true);
 
   const colors = [
     '#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6',
@@ -40,11 +54,7 @@ export default function Sidebar({
       const response = await fetch('/api/projects', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          description,
-          color,
-        }),
+        body: JSON.stringify({ name, description, color }),
       });
 
       const data = await response.json();
@@ -63,108 +73,177 @@ export default function Sidebar({
   };
 
   return (
-    <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col h-screen">
-      {/* Header */}
-      <div className="p-4 border-b border-gray-700">
-        <h1 className="text-xl font-bold text-white">Time Tracker</h1>
+    <div className="w-72 bg-gradient-to-b from-slate-900 to-slate-950 border-r border-slate-700/50 flex flex-col h-screen">
+      {/* Logo */}
+      <div className="p-5 border-b border-slate-700/50">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/20">
+            <Clock className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              TimeFlow
+            </h1>
+            <p className="text-xs text-slate-500">Learning Tracker</p>
+          </div>
+        </div>
       </div>
 
-      {/* Navigation */}
-      <div className="p-4 border-b border-gray-700 space-y-2">
-        <button
-          onClick={() => onViewChange?.('time')}
-          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-            activeView === 'time'
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-300 hover:bg-gray-700'
-          }`}
-        >
-          <Clock className="w-4 h-4" />
-          <span className="text-sm font-medium">Time Tracker</span>
-        </button>
-        <button
-          onClick={() => onViewChange?.('project')}
-          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-            activeView === 'project'
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-300 hover:bg-gray-700'
-          }`}
-        >
-          <Folder className="w-4 h-4" />
-          <span className="text-sm font-medium">Projects</span>
-        </button>
-      </div>
+      {/* Main Navigation */}
+      <nav className="p-3 border-b border-slate-700/50">
+        <ul className="space-y-1">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeView === item.id;
+            return (
+              <li key={item.id}>
+                <button
+                  onClick={() => onViewChange?.(item.id)}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 ${
+                    isActive
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 shadow-lg shadow-cyan-500/5'
+                      : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                  }`}
+                >
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-cyan-400' : ''}`} />
+                  <span className="text-sm font-medium">{item.label}</span>
+                  {isActive && (
+                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                  )}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
 
       {/* Projects Section */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Projects</h2>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="p-1 hover:bg-gray-700 rounded text-gray-400 hover:text-white transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-          </button>
+      <div className="flex-1 overflow-y-auto p-3">
+        <div className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <span>Projects</span>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-cyan-400 transition-colors"
+              title="Create project"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setProjectsExpanded(!projectsExpanded)}
+              className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-slate-300 transition-colors"
+              title={projectsExpanded ? 'Collapse' : 'Expand'}
+            >
+              {projectsExpanded ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <ChevronRight className="w-4 h-4" />
+              )}
+            </button>
+          </div>
         </div>
 
-        <div className="space-y-1">
-          {projects.map((project) => (
-            <button
-              key={project.id}
-              onClick={() => {
-                onProjectSelect(project);
-                onViewChange?.('project');
-              }}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                selectedProject?.id === project.id && activeView === 'project'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-300 hover:bg-gray-700'
-              }`}
-            >
-              <div
-                className="w-4 h-4 rounded"
-                style={{ backgroundColor: project.color }}
-              />
-              <span className="flex-1 text-left truncate">{project.name}</span>
-            </button>
-          ))}
-        </div>
+        {projectsExpanded && (
+          <div className="space-y-1 mt-2">
+            {projects.length === 0 ? (
+              <div className="px-3 py-4 text-center">
+                <div className="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Folder className="w-6 h-6 text-slate-600" />
+                </div>
+                <p className="text-sm text-slate-500 mb-2">No projects yet</p>
+                <button
+                  onClick={() => setShowCreateModal(true)}
+                  className="text-sm text-cyan-400 hover:text-cyan-300 font-medium"
+                >
+                  Create your first project
+                </button>
+              </div>
+            ) : (
+              projects.map((project) => (
+                <button
+                  key={project.id}
+                  onClick={() => {
+                    onProjectSelect(project);
+                    onViewChange?.('projects');
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
+                    selectedProject?.id === project.id && activeView === 'projects'
+                      ? 'bg-slate-800 text-white'
+                      : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+                  }`}
+                >
+                  <div
+                    className="w-3 h-3 rounded-md ring-2 ring-offset-1 ring-offset-slate-900"
+                    style={{ backgroundColor: project.color, boxShadow: `0 0 8px ${project.color}40` }}
+                  />
+                  <span className="flex-1 text-left truncate text-sm">{project.name}</span>
+                </button>
+              ))
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Footer - User Info */}
+      {user && (
+        <div className="p-4 border-t border-slate-700/50">
+          <div className="flex items-center gap-3 px-3 py-2 bg-slate-800/50 rounded-xl">
+            <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold ${
+              user.id === 'user-ali' 
+                ? 'bg-gradient-to-br from-emerald-500 to-teal-600' 
+                : 'bg-gradient-to-br from-violet-500 to-purple-600'
+            }`}>
+              {user.avatar}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">{user.name}</p>
+              <p className="text-xs text-slate-500 truncate">{user.email}</p>
+            </div>
+            <button
+              onClick={logout}
+              className="p-2 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-red-400 transition-colors"
+              title="Logout"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Create Project Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full border border-gray-700">
-            <h2 className="text-xl font-bold text-white mb-4">Create Project</h2>
-            <form onSubmit={handleCreateProject} className="space-y-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-900 rounded-2xl p-6 max-w-md w-full border border-slate-700 shadow-2xl">
+            <h2 className="text-xl font-bold text-white mb-5">Create Project</h2>
+            <form onSubmit={handleCreateProject} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Name *
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Project Name *
                 </label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="My Project"
+                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                  placeholder="Enter project name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-slate-300 mb-2">
                   Description
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Project description"
+                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                  placeholder="What's this project about?"
                   rows={3}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Color
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  Color Theme
                 </label>
                 <div className="flex gap-2 flex-wrap">
                   {colors.map((c) => (
@@ -172,21 +251,21 @@ export default function Sidebar({
                       key={c}
                       type="button"
                       onClick={() => setColor(c)}
-                      className={`w-8 h-8 rounded ${
-                        color === c ? 'ring-2 ring-white ring-offset-2 ring-offset-gray-800' : ''
+                      className={`w-9 h-9 rounded-lg transition-transform hover:scale-110 ${
+                        color === c ? 'ring-2 ring-white ring-offset-2 ring-offset-slate-900 scale-110' : ''
                       }`}
                       style={{ backgroundColor: c }}
                     />
                   ))}
                 </div>
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-3 pt-2">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                  className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 shadow-lg shadow-cyan-500/25"
                 >
-                  {loading ? 'Creating...' : 'Create'}
+                  {loading ? 'Creating...' : 'Create Project'}
                 </button>
                 <button
                   type="button"
@@ -196,7 +275,7 @@ export default function Sidebar({
                     setDescription('');
                     setColor('#3B82F6');
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                  className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-3 px-4 rounded-xl transition-colors"
                 >
                   Cancel
                 </button>
