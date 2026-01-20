@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       appData.attendances = [];
     }
 
-    // Check if already clocked in today for THIS USER (not clocked out)
+    // Check if already clocked in today for THIS USER (not clocked out yet)
     const existingRecord = appData.attendances.find(
       (a: any) => a.date === date && a.userId === actualUserId && a.clockIn && !a.clockOut
     );
@@ -36,17 +36,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if already completed today for THIS USER (clocked in and out)
-    const completedRecord = appData.attendances.find(
-      (a: any) => a.date === date && a.userId === actualUserId && a.clockIn && a.clockOut
-    );
-
-    if (completedRecord) {
-      return NextResponse.json(
-        { success: false, error: `${userName} already completed attendance for today.` },
-        { status: 400 }
-      );
-    }
+    // Allow multiple clock-in/out sessions per day - no restriction on completed records
 
     // Create new attendance record
     const newRecord = {
