@@ -28,7 +28,10 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(true);
   const [lastMessageCount, setLastMessageCount] = useState(0);
   const [onlineStatus, setOnlineStatus] = useState<OnlineStatus>({});
+  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   // Send heartbeat to update online status
   const sendHeartbeat = async () => {
@@ -87,9 +90,23 @@ export default function ChatPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
+  // Only auto-scroll on initial load or when user sends a message
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (shouldScrollToBottom || isInitialLoad) {
+      scrollToBottom();
+      if (isInitialLoad && messages.length > 0) {
+        setIsInitialLoad(false);
+      }
+    }
+  }, [messages, shouldScrollToBottom, isInitialLoad]);
+
+  // Check if user is near bottom of chat
+  const checkIfNearBottom = () => {
+    const container = messagesContainerRef.current;
+    if (!container) return true;
+    const threshold = 100; // pixels from bottom
+    return container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+  };
 
   const loadMessages = async () => {
     try {
@@ -97,6 +114,16 @@ export default function ChatPage() {
       const data = await response.json();
       if (data.success) {
         const newMessages = data.data || [];
+        
+        // Check if there are new messages from others
+        const hasNewMessages = newMessages.length > lastMessageCount;
+        const isNearBottom = checkIfNearBottom();
+        
+        // Only auto-scroll if user is already near bottom or it's initial load
+        if (hasNewMessages && isNearBottom) {
+          setShouldScrollToBottom(true);
+        }
+        
         setMessages(newMessages);
         setLastMessageCount(newMessages.length);
         
@@ -112,6 +139,7 @@ export default function ChatPage() {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    setShouldScrollToBottom(false);
   };
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -134,6 +162,7 @@ export default function ChatPage() {
 
       const data = await response.json();
       if (data.success) {
+        setShouldScrollToBottom(true); // Scroll to bottom when user sends message
         loadMessages();
       } else {
         showToast('error', 'Failed to send message');
@@ -221,7 +250,7 @@ export default function ChatPage() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4">
         <div className="max-w-4xl mx-auto space-y-4">
           {messages.length === 0 ? (
             <div className="text-center py-16">
