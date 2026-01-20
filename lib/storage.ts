@@ -4,16 +4,6 @@ import { AppData } from '@/types';
 const isVercel = process.env.VERCEL === '1';
 const TMP_DATA_FILE = '/tmp/app-data.json';
 
-// Load initial data dynamically to avoid build issues
-function getInitialData(): AppData | null {
-  try {
-    // Use require for dynamic loading
-    return require('@/data/app.json') as AppData;
-  } catch {
-    return null;
-  }
-}
-
 export function loadData(): AppData {
   const defaultData: AppData = {
     workspaces: [],
@@ -33,26 +23,24 @@ export function loadData(): AppData {
     const fs = require('fs');
     const path = require('path');
     
-    // On Vercel, check /tmp first for any saved data
-    if (isVercel) {
-      if (fs.existsSync(TMP_DATA_FILE)) {
-        return JSON.parse(fs.readFileSync(TMP_DATA_FILE, 'utf-8'));
-      }
-      // Use dynamically loaded initial data on Vercel
-      const initial = getInitialData();
-      if (initial) return initial;
+    // On Vercel, check /tmp first for any runtime changes
+    if (isVercel && fs.existsSync(TMP_DATA_FILE)) {
+      return JSON.parse(fs.readFileSync(TMP_DATA_FILE, 'utf-8'));
     }
     
-    // Local development: Load from file system
+    // Try loading from data folder first
     const DATA_FILE = path.join(process.cwd(), 'data', 'app.json');
     if (fs.existsSync(DATA_FILE)) {
       return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
     }
+    
+    // Fallback: Load from public folder (works on Vercel)
+    const PUBLIC_FILE = path.join(process.cwd(), 'public', 'app-data.json');
+    if (fs.existsSync(PUBLIC_FILE)) {
+      return JSON.parse(fs.readFileSync(PUBLIC_FILE, 'utf-8'));
+    }
   } catch (error) {
     console.error('Error loading data:', error);
-    // Fallback to initial data
-    const initial = getInitialData();
-    if (initial) return initial;
   }
 
   return defaultData;
