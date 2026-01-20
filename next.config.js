@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Ensure proper output for Vercel
-  output: 'standalone',
   // Turbopack config (Next.js 16+)
   turbopack: {},
   // Images from Clerk and other sources
@@ -17,6 +15,11 @@ const nextConfig = {
         hostname: '*.clerk.com',
       },
     ],
+  },
+  // Include data folder in serverless functions
+  outputFileTracingIncludes: {
+    '/api/**/*': ['./data/**/*'],
+    '/app': ['./data/**/*'],
   },
 }
 
