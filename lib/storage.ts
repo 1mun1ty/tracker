@@ -1,9 +1,18 @@
 import { AppData } from '@/types';
-import initialData from '@/data/app.json';
 
 // Check if we're on Vercel
 const isVercel = process.env.VERCEL === '1';
 const TMP_DATA_FILE = '/tmp/app-data.json';
+
+// Load initial data dynamically to avoid build issues
+function getInitialData(): AppData | null {
+  try {
+    // Use require for dynamic loading
+    return require('@/data/app.json') as AppData;
+  } catch {
+    return null;
+  }
+}
 
 export function loadData(): AppData {
   const defaultData: AppData = {
@@ -29,8 +38,9 @@ export function loadData(): AppData {
       if (fs.existsSync(TMP_DATA_FILE)) {
         return JSON.parse(fs.readFileSync(TMP_DATA_FILE, 'utf-8'));
       }
-      // Use imported initial data on Vercel (bundled at build time)
-      return initialData as unknown as AppData;
+      // Use dynamically loaded initial data on Vercel
+      const initial = getInitialData();
+      if (initial) return initial;
     }
     
     // Local development: Load from file system
@@ -40,10 +50,9 @@ export function loadData(): AppData {
     }
   } catch (error) {
     console.error('Error loading data:', error);
-    // Fallback to imported data
-    if (initialData) {
-      return initialData as unknown as AppData;
-    }
+    // Fallback to initial data
+    const initial = getInitialData();
+    if (initial) return initial;
   }
 
   return defaultData;

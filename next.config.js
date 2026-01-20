@@ -16,10 +16,12 @@ const nextConfig = {
       },
     ],
   },
-  // Include data folder in serverless functions
-  outputFileTracingIncludes: {
-    '/api/**/*': ['./data/**/*'],
-    '/app': ['./data/**/*'],
+  // Transpile data files
+  transpilePackages: [],
+  // Webpack config to handle JSON imports
+  webpack: (config) => {
+    config.resolve.alias['@/data'] = require('path').join(__dirname, 'data');
+    return config;
   },
 }
 
